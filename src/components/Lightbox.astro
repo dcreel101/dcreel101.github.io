@@ -1,0 +1,49 @@
+---
+import { Image } from "astro:assets";
+const { gallery, image, id } = Astro.props;
+---
+
+<a
+  href={"#" + gallery + "-" + id}
+  id={"i" + gallery + "-" + id}
+  class={`row-span-3x ${id === 4 || id === 9 || id === 14 ? "col-span-2" : ""}`}
+>
+  <Image
+    src={image.default}
+    alt=""
+    class="galleryImagex w-full h-autox object-center object-cover h-72 transition-all hover:scale-125 bg-white duration-200 ease-in-out hover:shadow-2xl shadow-lg rounded-none"
+  />
+</a>
+<a
+  href={"#i" + gallery + "-" + id}
+  class="hidden fixed h-full z-50 bg-black/75 transition-all target:block items-centerx w-full"
+  id={gallery + "-" + id}
+>
+  <Image
+    src={image.default}
+    alt=""
+    class="galleryImage hidden w-full h-autox object-center object-cover h-64 transition-all hover:scale-125 bg-white duration-200 ease-in-out hover:shadow-2xl shadow-lg rounded-none"
+  />
+  <canvas
+    class="watermark-canvas h-auto w-autox mt-20 lg:mt-0 lg:w-auto w-auto object-center object-cover mx-auto my-auto p-2x bg-slate-200 shadow-xl"
+  >
+  </canvas>
+</a>
+
+<!-- is:inline -->
+<!-- {{Site}} is used for loading configs -->
+<script is:inline>
+  var cusid_ele = document.getElementsByClassName("galleryImage");
+  var image_canvas = document.getElementsByClassName("watermark-canvas");
+  for (var i = 0; i < cusid_ele.length; ++i) {
+    var item = cusid_ele[i];
+    var src = item.getAttribute("src");
+    const image = new Image();
+    const canvas = image_canvas[i];
+    image.onload = () => {
+      canvas.width = image.width;
+      canvas.height = image.height;
+    };
+    image.src = src;
+  }
+</script>

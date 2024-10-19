@@ -1,0 +1,48 @@
+---
+import ImageWithModal from "../components/imageWithModal.astro";
+
+interface Props {
+  mediaSource: MediaSources;
+  folder: string;
+}
+
+export enum MediaSources {
+  Blog = "/src/content/blog/**/*.{jpeg,jpg,png,gif,jfif}",
+  Projects = "/src/content/projects/**/*.{jpeg,jpg,png,gif,jfif,mp4}",
+  Store = "/src/content/store/**/*.{jpeg,jpg,png,gif,jfif}",
+}
+
+async function loadMedia(source: MediaSources) {
+  switch (source) {
+    case MediaSources.Projects:
+      return await Astro.glob(MediaSources.Projects);
+    default:
+      return [];
+  }
+}
+
+function filterMedia(ms) {
+  let values = Object.values(ms).map((m) => m.default?.src ?? m.default ?? "");
+  let filtered = values.filter((v) => {
+    let tokens = v.split("/");
+    if (tokens.length >= 2) {
+      return tokens[tokens.length - 2] == filter;
+    }
+
+    return false;
+  });
+
+  return filtered;
+}
+
+const { mediaSource, folder: filter } = Astro.props;
+let media = await loadMedia(mediaSource);
+media = filterMedia(media);
+media.sort(() => Math.random() - 0.5);
+---
+
+<div
+  class="mx-auto container my-8 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5"
+>
+  {media.map((m) => <ImageWithModal src={m} alt="" />)}
+</div>

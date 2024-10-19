@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HorizontalCard from "../components/HorizontalCard.astro";
+---
+
+<BaseLayout title="Services" sideBarActiveItemID="services">
+  <div>
+    <div class="text-3xl w-full font-bold mb-5">Services Offered</div>
+  </div>
+
+  <HorizontalCard
+    title="Turnkey Prototyping"
+    img="/prototype.svg"
+    desc=`From idea to delivered prototype, with a high level of efficiency and quality`
+    url={null}
+  />
+  <div class="divider my-0"></div>
+  <HorizontalCard
+    title="Software"
+    img="/code-brackets.svg"
+    desc=`- .NET for Desktop, Web and Back-end
+    - Databases (SQL Server, MySql, Sqlite, etc)
+    - Cloud and IoT Back-end (Azure, AWS, MQTT, etc)
+    - Mobile and embedded (Android, Yocto Linux, .NET)`
+    url={null}
+  />
+  <div class="divider my-0"></div>
+  <HorizontalCard
+    title="Firmware"
+    img="/firmware.svg"
+    desc=`- Safety critical (ARM and RTOS)
+    - IoT and consumer products (ESP32/ESP8266 and IDF/Arduino)
+    - Resource-constrained (8-bit AVR & PIC)`
+    url={null}
+  />
+  <div class="divider my-0"></div>
+  <HorizontalCard
+    title="Electronics"
+    img="/hardware.svg"
+    desc="Schematic design and PCB layout for primarily digital systems"
+    url={null}
+  />
+  <div class="divider my-0"></div>
+  <HorizontalCard
+    title="Mechanical"
+    img="/mechanical.svg"
+    desc="Mechanical design, rapid prototyping, and preparation for manufacturing"
+    url={null}
+  />
+</BaseLayout>

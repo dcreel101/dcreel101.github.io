@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HorizontalCard from "../components/HorizontalCard.astro";
+import { getCollection } from "astro:content";
+import createSlug from "../lib/createSlug";
+import type { BlogSchema } from "src/content/config";
+import type { StoreSchema } from "src/content/config";
+import type { ProjectSchema } from "src/content/config";
+import { SITE_DESCRIPTION } from "../config";
+
+export class Entry {
+  entryType: string;
+  updatedDate: Date;
+  entry: object;
+  slug: string;
+
+  constructor(et: string, ud: Date, e: object, s: string) {
+    this.entryType = et;
+    this.updatedDate = ud;
+    this.entry = e;
+    this.slug = s;
+  }
+
+  public getTitle(): string {
+    switch (this.entryType) {
+      case "blog":
+        return (this.entry as BlogSchema).title;
+      case "store":
+        return (this.entry as StoreSchema).title;
+      case "project":
+        return (this.entry as ProjectSchema).title;
+      default:
+        throw new TypeError("unknown entry type!");
+    }
+  }
+
+  public getDescription(): string {
+    switch (this.entryType) {
+      case "blog":
+        return (this.entry as BlogSchema).description;
+      case "store":
+        return (this.entry as StoreSchema).description;
+      case "project":
+        return (this.entry as ProjectSchema).description;
+      default:
+        throw new TypeError("unknown entry type!");
+    }
+  }
+
+  public getImage(): string | undefined {
+    switch (this.entryType) {
+      case "blog":
+        return (this.entry as BlogSchema).heroImage;
+      case "store":
+        return (this.entry as StoreSchema).heroImage;
+      case "project":
+        return (this.entry as ProjectSchema).heroImage;
+      default:
+        throw new TypeError("unknown entry type!");
+    }
+  }
+
+  public getUrl(): string {
+    switch (this.entryType) {
+      case "blog":
+        return "/blog/" + this.slug;
+      case "store":
+        return "/store/" + this.slug;
+      case "project":
+        return "/projects/" + this.slug;
+      default:
+        throw new TypeError("unknown entry type!");
+    }
+  }
+
+  public getBadge(): string | undefined {
+    switch (this.entryType) {
+      case "blog":
+        return (this.entry as BlogSchema).badge;
+      case "store":
+        return (this.entry as StoreSchema).badge;
+      case "project":
+        return (this.entry as ProjectSchema).badge;
+      default:
+        throw new TypeError("unknown entry type!");
+    }
+  }
+}
+
+let entries = new Array<Entry>();
+entries.push(
+  ...(await getCollection("blog")).map(
+    (b) => new Entry("blog", b.data.updatedDate, b.data, b.slug),
+  ),
+);
+entries.push(
+  ...(await getCollection("projects")).map(
+    (b) => new Entry("project", b.data.updatedDate, b.data, b.slug),
+  ),
+);
+entries.push(
+  ...(await getCollection("store")).map(
+    (b) => new Entry("store", b.data.updatedDate, b.data, b.slug),
+  ),
+);
+entries.sort((a, b) => b.updatedDate.valueOf() - a.updatedDate.valueOf());
+const latestEntries = entries.slice(0, 5);
+---
+
+<BaseLayout sideBarActiveItemID="home">
+  <div class="pb-12 mt-5">
+    <div class="text-5xl font-bold">David Creel</div>
+    <div class="text-3xl py-3 font-bold">The Make-a-holic</div>
+    <div class="py-2">
+      <text class="text-lg">
+        {SITE_DESCRIPTION}
+      </text>
+    </div>
+  </div>
+
+  <div>
+    <div class="text-3xl w-full font-bold mb-2">Latest Updates</div>
+  </div>
+  {
+    latestEntries.map((entry) => (
+      <>
+        <HorizontalCard
+          title={entry.getTitle()}
+          img={entry.getImage()}
+          desc={entry.getDescription()}
+          url={entry.getUrl()}
+          target="_self"
+          badge={entry.getBadge()}
+        />
+        <div class="divider my-0" />
+      </>
+    ))
+  }
+</BaseLayout>

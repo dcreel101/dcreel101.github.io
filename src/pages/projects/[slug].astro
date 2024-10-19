@@ -1,0 +1,58 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import { ProjectSchema } from "../../content/config";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import createSlug from "../../lib/createSlug";
+
+export async function getStaticPaths() {
+  const ps = await getCollection("projects");
+  return await ps.map((p) => ({
+    params: { slug: createSlug(p.data.title, p.slug) },
+    props: { project: p, media: getMedia(p.slug) },
+  }));
+}
+
+export async function getMedia(slug: string) {
+  let images = import.meta.glob<{ default: ImageMetadata }>(
+    "/src/content/projects/**/*.{jpeg,jpg,jfif}",
+  );
+
+  // 2. Filter images by slug
+  images = Object.fromEntries(
+    Object.entries(images).filter(([key]) => key.includes(slug)),
+  );
+
+  // 3. Images are promises, so we need to resolve the glob promises
+  const resolvedImages = await Promise.all(
+    Object.values(images).map((image) => image().then((mod) => mod.default)),
+  );
+
+  // 4. Shuffle images in random order
+  resolvedImages.sort(() => Math.random() - 0.5);
+  return resolvedImages;
+}
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const proj: ProjectSchema = project.data;
+const { Content } = await project.render();
+---
+
+<ProjectLayout
+  sort={proj.sort}
+  title={proj.title}
+  description={proj.description}
+  status={proj.status}
+  startDate={proj.startDate}
+  updateDate={proj.updateDate}
+  heroImage={proj.heroImage}
+  updatedDate={proj.updatedDate}
+  badge={proj.badge}
+  tags={proj.tags}
+  mediaFolder={proj.mediaFolder}
+>
+  <Content />
+</ProjectLayout>
