@@ -1,0 +1,75 @@
+---
+import * as MediaUtils from "@lib/MediaUtils";
+import * as PathUtils from "@lib/PathUtils";
+import * as EntryUtils from "@lib/EntryUtils";
+import { type ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
+  mediaSource?: MediaUtils.MediaSources;
+  mediaFolder?: string;
+  defaultImage?: ImageMetadata;
+  defaultIcon?: string;
+}
+
+const { entry, mediaSource, mediaFolder, defaultImage, defaultIcon } =
+  Astro.props;
+
+async function loadEntryImage(
+  imageName: string,
+): Promise<ImageMetadata | undefined> {
+  let media: ImageMetadata | undefined;
+  if (mediaSource && mediaFolder) {
+    media = await MediaUtils.loadSingleMedia(
+      mediaSource,
+      mediaFolder,
+      imageName,
+    );
+  } else if (entry.id) {
+    const ms = MediaUtils.getMediaSource(entry);
+    const mf = PathUtils.getPathFromId(entry.id);
+    media = await MediaUtils.loadSingleMedia(ms, mf, imageName);
+  }
+
+  return media;
+}
+
+let media: ImageMetadata | undefined;
+let alt: string;
+if (!entry.cardIcon) {
+  if (entry.heroImage) {
+    media = await loadEntryImage(entry.heroImage);
+  } else {
+    media = defaultImage;
+  }
+}
+
+if (media) {
+  alt = PathUtils.getFileNameFromPath(media.src);
+} else {
+  alt = "";
+}
+---
+
+<div class="w-40 h-40">
+  {
+    !media && (entry.cardIcon || defaultIcon) && (
+      <Icon
+        name={entry.cardIcon ?? defaultIcon}
+        is:inline={true}
+        class="rounded-xl object-cover object-center h-full w-full"
+      />
+    )
+  }
+  {
+    media && (
+      <Image
+        src={media}
+        alt={alt}
+        class="rounded-xl object-cover object-center h-full w-full"
+      />
+    )
+  }
+</div>

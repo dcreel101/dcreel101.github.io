@@ -4,7 +4,7 @@ title: "3S Nugget"
 description: "Steering wheel radio controls translator"
 updatedDate: "2014"
 status: "deployed"
-heroImage: "/logo.svg"
+cardIcon: "hardware"
 ---
 
 <div class="projectSection">

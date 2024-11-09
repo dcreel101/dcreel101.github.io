@@ -1,0 +1,37 @@
+---
+import EntryListLayout from "@layouts/EntryListLayout.astro";
+import * as EntryUtils from "@lib/EntryUtils";
+
+export async function getStaticPaths({ paginate }) {
+  const slugs =
+    await EntryUtils.getCollectionSlugEntries<EntryUtils.EntryWithTags>(
+      "hobbies",
+    );
+  const allTags = slugs.flatMap((s) => s.props.entryWrapper.tags ?? []);
+  let uniqueTags = [...new Set(allTags)];
+
+  const tagPages = uniqueTags.flatMap((t) =>
+    paginate(
+      slugs.filter((s) => s.props.entryWrapper.tags?.includes(t)),
+      {
+        params: { tag: t },
+        pageSize: 5,
+      },
+    ),
+  );
+
+  return tagPages;
+}
+
+const { page } = Astro.props;
+const params = Astro.params;
+---
+
+<EntryListLayout
+  title={`Hobbies (${params.tag})`}
+  sideBarActiveItemID="hobbies"
+  pagingPrevUrl={page.url.prev}
+  pagingNextUrl={page.url.next}
+  entries={page.data.map((d) => d.props.entryWrapper)}
+  defaultCardIcon="hobby"
+/>

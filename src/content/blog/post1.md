@@ -1,9 +1,9 @@
 ---
-title: "Demo Post 1"
-description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-updatedDate: "12.7.2024"
-pubDate: "Sep 10 2022"
-heroImage: "/post_img.webp"
+sort: 0
+title: "On the Web"
+description: "I finally got around to showing off some of my work and hobbies."
+updatedDate: "2024-11-17"
+publicationDate: "2024-11-17"
 tags: ["tokio"]
 ---
 

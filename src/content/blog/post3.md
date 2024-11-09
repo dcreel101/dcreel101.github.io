@@ -1,11 +1,10 @@
 ---
+sort: 0
 title: "Demo Post 3"
 description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 updatedDate: "10.7.2024"
-pubDate: "Sep 12 2022"
-heroImage: "/post_img.webp"
+publicationDate: "Sep 12 2022"
 badge: "Demo badge"
-tags: ["rust","tokio"]
 ---
 
 heyhehyhe

@@ -1,0 +1,30 @@
+---
+import { type BlogPost } from "../content/config";
+import EntryLayout from "@layouts/EntryLayout.astro";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+export interface Props {
+  blogPost: BlogPost;
+}
+
+const { blogPost } = Astro.props;
+
+dayjs.extend(localizedFormat);
+---
+
+<EntryLayout entry={blogPost}>
+  <Fragment slot="header">
+    <div>
+      Published: <time>{blogPost.publicationDate.toLocaleDateString()}</time>
+    </div>
+    {
+      blogPost.updatedDate && (
+        <div>
+          Last Updated: <time>{blogPost.updatedDate.toLocaleDateString()}</time>
+        </div>
+      )
+    }
+  </Fragment>
+  <slot name="content" slot="content" />
+</EntryLayout>

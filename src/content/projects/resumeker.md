@@ -4,7 +4,7 @@ title: "Resumeker"
 description: "Database-driven personal CV generator"
 updatedDate: "2023"
 status: "proof of concept"
-heroImage: "/logo.svg"
+cardIcon: "software"
 ---
 
 <div class="projectSection">

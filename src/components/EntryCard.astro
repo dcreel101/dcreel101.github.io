@@ -1,0 +1,54 @@
+---
+import * as EntryUtils from "@lib/EntryUtils";
+import EntryCardImage from "@components/EntryCardImage.astro";
+
+export interface Props {
+  entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
+  defaultImage?: ImageMetadata;
+  defaultIcon?: string;
+  noHover?: boolean;
+}
+
+const { entry, defaultImage, defaultIcon, noHover = false } = Astro.props;
+
+const tagBaseUrl = `/${entry.collection}/tag`;
+---
+
+<div
+  class=`rounded-lg bg-base-100 ${noHover ? "" : "hover:shadow-xl transition ease-in-out hover:scale-[102%]"}`
+>
+  <a href={entry.url} target="_self">
+    <div class="hero-content flex-col md:flex-row">
+      <EntryCardImage
+        entry={entry}
+        defaultImage={defaultImage}
+        defaultIcon={defaultIcon}
+      />
+      <div class="grow">
+        <h1 class="text-xl font-bold">
+          {entry.title}
+          {
+            entry.badge && (
+              <div class="badge badge-secondary mx-2">{entry.badge}</div>
+            )
+          }
+        </h1>
+        <p class="py-1 text-1xl whitespace-pre-line">{entry.description}</p>
+        <p>
+          <a></a>
+          {
+            entry.tags &&
+              entry.tags.map((tag) => (
+                <a
+                  href={`${tagBaseUrl}/${tag}`}
+                  class="badge badge-outline mr-2 no-underline"
+                >
+                  {tag}
+                </a>
+              ))
+          }
+        </p>
+      </div>
+    </div>
+  </a>
+</div>

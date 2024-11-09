@@ -5,8 +5,11 @@ import tailwind from "@astrojs/tailwind";
 
 import react from '@astrojs/react';
 
+import icon from 'astro-icon';
+
 // https://astro.build/config
+// https://astrofy-template.netlify.app
 export default defineConfig({
-  site: 'https://astrofy-template.netlify.app',
-  integrations: [mdx(), sitemap(), tailwind(), react()]
+  site: 'https://creel.cloud',
+  integrations: [mdx(), sitemap(), tailwind(), react(), icon()]
 });

@@ -17,10 +17,13 @@ const tag_url = url ? url.split("/").slice(0, -1).join("/") + "/tag" : "";
             height={422}
             format="svg"
             alt={title}
-            class="max-w-full md:max-w-[8rem] rounded-lg"
+            class="max-w-full md:max-w-[8rem] rounded-lg fill-bc stroke-bc"
           />
         )
       }
+      <div width="120px">
+        <slot class="max-w-full md:max-w-[8rem] rounded-lg fill-primary" />
+      </div>
       <div class="grow w-full">
         <h1 class="text-xl font-bold">
           {title}

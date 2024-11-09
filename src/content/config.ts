@@ -1,56 +1,46 @@
 import { z, defineCollection } from "astro:content";
+import { entrySchema, entryWithTagsSchema, metaSchema } from "../lib/Entry.ts"
 
-const blogSchema = z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.string(),
-    updatedDate: z.coerce.date(),
-    heroImage: z.string().optional(),
-    badge: z.string().optional(),
-    tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
-        message: 'tags must be unique',
-    }).optional(),
-});
+const blogPostSchema = entryWithTagsSchema.merge(z.object({
+    publicationDate: z.coerce.date(),
+}));
 
-const storeSchema = z.object({
-    title: z.string(),
-    description: z.string(),
-    custom_link_label: z.string(),
-    custom_link: z.string().optional(),
-    updatedDate: z.coerce.date(),
-    pricing: z.string().optional(),
-    oldPricing: z.string().optional(),
-    badge: z.string().optional(),
-    checkoutUrl: z.string().optional(),
-    heroImage: z.string().optional(),
-});
+const storeItemSchema = entrySchema.merge(z.object({
+    price: z.string().optional(),
+    oldPrice: z.string().optional(),
+    shopUrl: z.string().optional(),
+    customButtonLabel: z.string().optional(),
+    customButtonUrl: z.string().optional()
+}));
 
-const projectSchema = z.object({
-    sort: z.number(),
-    title: z.string(),
-    description: z.string(),
+const projectSchema = entrySchema.merge(z.object({
     status: z.string().optional(),
     startDate: z.string().optional(),
     lastActiveDate: z.string().optional(),
-    updatedDate: z.coerce.date(),
-    heroImage: z.string().optional(),
-    badge: z.string().optional(),
-    tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
-        message: 'tags must be unique',
-    }).optional(),
-    mediaFolder: z.string().optional(),
-});
+}));
 
-export type BlogSchema = z.infer<typeof blogSchema>;
-export type StoreSchema = z.infer<typeof storeSchema>;
-export type ProjectSchema = z.infer<typeof projectSchema>;
+const hobbySchema = entryWithTagsSchema.merge(z.object({
+    startDate: z.string().optional(),
+    lastActiveDate: z.string().optional(),
+}));
 
-const blogCollection = defineCollection({ schema: blogSchema });
-const storeCollection = defineCollection({ schema: storeSchema });
+const blogPostsCollection = defineCollection({ schema: blogPostSchema });
+const storeItemsCollection = defineCollection({ schema: storeItemSchema });
 const projectsCollection = defineCollection({ schema: projectSchema });
+const hobbiesCollection = defineCollection({ schema: hobbySchema });
 
 export const collections = {
-    'blog': blogCollection,
-    'store': storeCollection,
-    'projects': projectsCollection
+    'blog': blogPostsCollection,
+    'store': storeItemsCollection,
+    'projects': projectsCollection,
+    'hobbies': hobbiesCollection,
 }
+
+const blogPostWithMetaSchema = blogPostSchema.merge(metaSchema);
+const storeItemSchemaWithMetaSchema = storeItemSchema.merge(metaSchema);
+const projectSchemaWithMetaSchema = projectSchema.merge(metaSchema);
+const hobbySchemaWithMetaSchema = hobbySchema.merge(metaSchema);
+export type BlogPost = z.infer<typeof blogPostWithMetaSchema>;
+export type StoreItem = z.infer<typeof storeItemSchemaWithMetaSchema>;
+export type Project = z.infer<typeof projectSchemaWithMetaSchema>;
+export type Hobby = z.infer<typeof hobbySchemaWithMetaSchema>;

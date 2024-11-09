@@ -1,50 +1,63 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HorizontalCard from "../components/HorizontalCard.astro";
+import EntryCard from "@components/EntryCard.astro";
+import * as EntryUtils from "@lib/EntryUtils";
+
+const prototyping: EntryUtils.Entry = {
+  sort: 0,
+  title: "Turnkey Prototyping",
+  description:
+    "From idea to delivered prototype, with a high level of efficiency and quality",
+  updatedDate: new Date(2024, 11, 8),
+  cardIcon: "prototype",
+};
+const software: EntryUtils.Entry = {
+  sort: 0,
+  title: "Software",
+  description: `- .NET for Desktop, Web and Back-end
+    - Databases (SQL Server, MySql, Sqlite, etc)
+    - Cloud and IoT Back-end (Azure, AWS, MQTT, etc)
+    - Mobile and embedded (Android, Yocto Linux, .NET)`,
+  updatedDate: new Date(2024, 11, 8),
+  cardIcon: "software",
+};
+const firmware: EntryUtils.Entry = {
+  sort: 0,
+  title: "Firmware",
+  description: `- Safety critical (ARM and RTOS)
+    - IoT and consumer products (ESP32/ESP8266 and IDF/Arduino)
+    - Resource-constrained (8-bit AVR & PIC)`,
+  updatedDate: new Date(2024, 11, 8),
+  cardIcon: "firmware",
+};
+const electronics: EntryUtils.Entry = {
+  sort: 0,
+  title: "Electronics",
+  description: "Schematic design and PCB layout for primarily digital systems",
+  updatedDate: new Date(2024, 11, 8),
+  cardIcon: "hardware",
+};
+const mechanical: EntryUtils.Entry = {
+  sort: 0,
+  title: "Mechanical",
+  description:
+    "Mechanical design, rapid prototyping, and preparation for manufacturing",
+  updatedDate: new Date(2024, 11, 8),
+  cardIcon: "mechanical",
+};
 ---
 
 <BaseLayout title="Services" sideBarActiveItemID="services">
   <div>
     <div class="text-3xl w-full font-bold mb-5">Services Offered</div>
   </div>
-
-  <HorizontalCard
-    title="Turnkey Prototyping"
-    img="/prototype.svg"
-    desc=`From idea to delivered prototype, with a high level of efficiency and quality`
-    url={null}
-  />
+  <EntryCard entry={prototyping} noHover={true} />
   <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Software"
-    img="/code-brackets.svg"
-    desc=`- .NET for Desktop, Web and Back-end
-    - Databases (SQL Server, MySql, Sqlite, etc)
-    - Cloud and IoT Back-end (Azure, AWS, MQTT, etc)
-    - Mobile and embedded (Android, Yocto Linux, .NET)`
-    url={null}
-  />
+  <EntryCard entry={software} noHover={true} />
   <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Firmware"
-    img="/firmware.svg"
-    desc=`- Safety critical (ARM and RTOS)
-    - IoT and consumer products (ESP32/ESP8266 and IDF/Arduino)
-    - Resource-constrained (8-bit AVR & PIC)`
-    url={null}
-  />
+  <EntryCard entry={firmware} noHover={true} />
   <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Electronics"
-    img="/hardware.svg"
-    desc="Schematic design and PCB layout for primarily digital systems"
-    url={null}
-  />
+  <EntryCard entry={electronics} noHover={true} />
   <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Mechanical"
-    img="/mechanical.svg"
-    desc="Mechanical design, rapid prototyping, and preparation for manufacturing"
-    url={null}
-  />
+  <EntryCard entry={mechanical} noHover={true} />
 </BaseLayout>

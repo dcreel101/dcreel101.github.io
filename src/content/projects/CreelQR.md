@@ -4,7 +4,7 @@ title: "CreelQR"
 description: ".NET QR Code Library"
 updatedDate: "2018"
 status: "work in progress"
-heroImage: "/logo.svg"
+cardIcon: "software"
 ---
 
 <div class="projectSection">

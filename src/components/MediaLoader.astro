@@ -1,0 +1,57 @@
+---
+/// <reference path="../../.astro/types.d.ts" />
+
+import { isImageMetadata } from "node_modules/astro/dist/assets/types";
+
+export enum MediaSources {
+    Blog = "/src/content/blog",
+    Projects = "/src/content/projects",
+    Store = "/src/content/store",
+    Hobbies = "/src/content/hobbies",
+}
+
+export async function loadAllMedia(
+    source: MediaSources,
+): Promise<ImageMetadata[]> {
+    enum MediaFilter {
+        Value = "/**/*.{jpeg,jpg,png,gif,jfif,mp4}",
+    }
+
+    let mediaRecords: Record<string, any>[];
+    try {
+        switch (source) {
+            case MediaSources.Blog:
+                mediaRecords = await Astro.glob(
+                    MediaSources.Blog + MediaFilter.Value,
+                );
+                break;
+            case MediaSources.Projects:
+                mediaRecords = await Astro.glob(
+                    MediaSources.Projects + MediaFilter.Value,
+                );
+                break;
+            case MediaSources.Store:
+                mediaRecords = await Astro.glob(
+                    MediaSources.Store + MediaFilter.Value,
+                );
+                break;
+            case MediaSources.Hobbies:
+                mediaRecords = await Astro.glob(
+                    MediaSources.Hobbies + MediaFilter.Value,
+                );
+                break;
+            default:
+                mediaRecords = [];
+                break;
+        }
+    } catch (er: any) {
+        mediaRecords = [];
+    }
+
+    const media: ImageMetadata[] = Object.values(mediaRecords)
+        .filter((mr) => isImageMetadata(mr.default))
+        .map((mr) => mr.default!);
+
+    return media;
+}
+---

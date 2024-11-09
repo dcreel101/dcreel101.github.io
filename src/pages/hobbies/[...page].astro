@@ -1,0 +1,22 @@
+---
+import EntryListLayout from "@layouts/EntryListLayout.astro";
+import * as EntryUtils from "@lib/EntryUtils";
+
+export async function getStaticPaths({ paginate }) {
+  const entries =
+    await EntryUtils.getCollectionEntries<EntryUtils.Hobby>("hobbies");
+  return paginate(entries, { pageSize: 5 });
+}
+
+const { page } = Astro.props;
+---
+
+<EntryListLayout
+  title="Hobbies"
+  sideBarActiveItemID="hobbies"
+  tagsBaseUrl="hobbies/tag"
+  pagingPrevUrl={page.url.prev}
+  pagingNextUrl={page.url.next}
+  entries={page.data}
+  defaultCardIcon="hobby"
+/>

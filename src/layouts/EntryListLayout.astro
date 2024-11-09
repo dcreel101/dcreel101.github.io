@@ -1,0 +1,108 @@
+---
+import * as EntryUtils from "@lib/EntryUtils";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import EntryCard from "@components/EntryCard.astro";
+
+export interface Props {
+    title: string;
+    sideBarActiveItemID: string;
+    tagsBaseUrl?: string;
+    pagingPrevUrl: string;
+    pagingNextUrl: string;
+    entries: EntryUtils.Entry[] | EntryUtils.EntryWithTags[];
+    defaultCardImage?: ImageMetadata;
+    defaultCardIcon?: string;
+}
+
+const {
+    title,
+    sideBarActiveItemID,
+    pagingPrevUrl,
+    pagingNextUrl,
+    entries,
+    defaultCardImage,
+    defaultCardIcon,
+} = Astro.props;
+const tagCountsByTag = EntryUtils.getTagCountsByTag(entries);
+---
+
+<BaseLayout title={title} sideBarActiveItemID={sideBarActiveItemID}>
+    <div class="mb-5">
+        <div class="text-3xl w-full font-bold">{title}</div>
+        {
+            entries.length > 0 &&
+                tagCountsByTag &&
+                tagCountsByTag.map((tc) => (
+                    <a
+                        href={`/${entries[0].collection}/tag/${tc.tag}`}
+                        class="badge badge-outline mr-2 no-underline"
+                    >
+                        {tc.tag}
+                    </a>
+                ))
+        }
+    </div>
+    {
+        entries.length === 0 ? (
+            <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
+                <p class="font-bold">Sorry!</p>
+                <p>There is nothing to show at the moment. Check back later!</p>
+            </div>
+        ) : (
+            <ul>
+                {entries.map((e) => (
+                    <>
+                        <li>
+                            <EntryCard
+                                entry={e}
+                                defaultImage={defaultCardImage}
+                                defaultIcon={defaultCardIcon}
+                            />
+                            <div class="divider my-0" />
+                        </li>
+                    </>
+                ))}
+            </ul>
+        )
+    }
+    <div class="flex justify-between">
+        {
+            pagingPrevUrl ? (
+                <a href={pagingPrevUrl} class="btn btn-ghost my-10 mx-5">
+                    {" "}
+                    <svg
+                        class="h-6 w-6 fill-current md:h-8 md:w-8"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                    </svg>{" "}
+                    Previous
+                </a>
+            ) : (
+                <div />
+            )
+        }
+        {
+            pagingNextUrl ? (
+                <a href={pagingNextUrl} class="btn btn-ghost my-10 mx-5">
+                    Next{" "}
+                    <svg
+                        class="h-6 w-6 fill-current md:h-8 md:w-8"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                    >
+                        {" "}
+                        <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                    </svg>
+                </a>
+            ) : (
+                <div />
+            )
+        }
+    </div>
+</BaseLayout>

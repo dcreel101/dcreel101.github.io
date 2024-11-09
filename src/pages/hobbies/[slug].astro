@@ -1,0 +1,17 @@
+---
+import HobbyLayout from "@layouts/HobbyLayout.astro";
+import * as EntryUtils from "@lib/EntryUtils";
+
+export async function getStaticPaths() {
+  const slugs =
+    await EntryUtils.getCollectionSlugEntries<EntryUtils.Hobby>("hobbies");
+  return slugs;
+}
+
+const { entryWrapper } = Astro.props;
+const { Content } = await Astro.props.render();
+---
+
+<HobbyLayout hobby={entryWrapper}>
+  <Content slot="content" />
+</HobbyLayout>

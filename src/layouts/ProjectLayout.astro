@@ -1,80 +1,24 @@
 ---
-import { type ProjectSchema } from "../content/config";
-import BaseLayout from "./BaseLayout.astro";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import { Image } from "astro:assets";
-import Gallery, { MediaSources } from "../components/Gallery.astro";
+import { type Project } from "../content/config";
+import EntryLayout from "@layouts/EntryLayout.astro";
 
-export interface Props extends ProjectSchema {}
+export interface Props {
+  project: Project;
+}
 
-const {
-  sort,
-  title,
-  description,
-  status,
-  startDate,
-  updateDate,
-  heroImage,
-  badge,
-  tags = [],
-  mediaFolder,
-} = Astro.props;
-dayjs.extend(localizedFormat);
+const { project } = Astro.props;
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  image={heroImage}
-  ,
-  ogType="article"
->
-  <main class="md:flex md:justify-center">
-    <article class="prose prose-lg max-w-[750px] prose-img:mx-auto">
-      {
-        heroImage && (
-          <Image
-            width={750}
-            height={422}
-            format="webp"
-            src={heroImage}
-            alt={title}
-            class="w-full mb-6"
-          />
-        )
-      }
-      <h1 class="title my-2 text-4xl font-bold">
-        {title + (status ? " (" + status + ")" : "")}
-      </h1>
-      <br />
-      {badge && <div class="badge badge-secondary my-1">{badge}</div>}
-      {
-        tags &&
-          tags.map((tag) => (
-            <a
-              href={`/blog/tag/${tag}`}
-              class="badge badge-outline ml-2 no-underline"
-            >
-              {tag}
-            </a>
-          ))
-      }
-      {
-        updateDate && (
-          <div>
-            {" "}
-            Last updated on <time>{updateDate}</time>{" "}
-          </div>
-        )
-      }
-      <div class="divider my-2"></div>
-      <slot />
-      <h2>Media</h2>
-      <Gallery
-        mediaSource={MediaSources.Projects}
-        folder={mediaFolder ?? Astro.params.slug ?? ""}
-      />
-    </article>
-  </main>
-</BaseLayout>
+<EntryLayout entry={Astro.props.project}>
+  <Fragment slot="header">
+    {
+      project.updatedDate && (
+        <div>
+          Last Updated: <time>{project.updatedDate.toLocaleDateString()}</time>
+        </div>
+      )
+    }
+    {project.status && <div>Status: {project.status}</div>}
+  </Fragment>
+  <slot name="content" slot="content" />
+</EntryLayout>

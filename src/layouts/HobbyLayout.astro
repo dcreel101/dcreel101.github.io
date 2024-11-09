@@ -1,0 +1,37 @@
+---
+import { type Hobby } from "../content/config";
+import EntryLayout from "@layouts/EntryLayout.astro";
+
+export interface Props {
+  hobby: Hobby;
+}
+
+const { hobby } = Astro.props;
+---
+
+<EntryLayout entry={hobby}>
+  <Fragment slot="header">
+    {
+      hobby.startDate && (
+        <div>
+          Started: <time>{hobby.startDate}</time>
+        </div>
+      )
+    }
+    {
+      hobby.lastActiveDate && (
+        <div>
+          Last Active: <time>{hobby.lastActiveDate}</time>
+        </div>
+      )
+    }
+    {
+      hobby.updatedDate && (
+        <div>
+          Last Updated: <time>{hobby.updatedDate.toLocaleDateString()}</time>
+        </div>
+      )
+    }
+  </Fragment>
+  <slot name="content" slot="content" />
+</EntryLayout>

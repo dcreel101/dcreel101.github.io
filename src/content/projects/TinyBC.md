@@ -4,7 +4,7 @@ title: "Tiny BC"
 description: "Tiny turbocharger boost controller"
 updatedDate: "2010"
 status: "deployed/deprecated"
-heroImage: "/logo.svg"
+cardIcon: "hardware"
 ---
 
 <div class="projectSection">

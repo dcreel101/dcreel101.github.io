@@ -1,48 +1,59 @@
 ---
-import ImageWithModal from "../components/imageWithModal.astro";
+import DaisyLightbox from "@components/DaisyLightbox.astro";
+import * as MediaUtils from "@lib/MediaUtils";
+import * as PathUtils from "@lib/PathUtils";
+import { type Entry, type EntryWithTags } from "@lib/Entry";
 
 interface Props {
-  mediaSource: MediaSources;
-  folder: string;
+  entry?: Entry | EntryWithTags;
+  mediaSource?: MediaUtils.MediaSources;
+  mediaFolder?: string;
+  sortByName?: boolean;
 }
 
-export enum MediaSources {
-  Blog = "/src/content/blog/**/*.{jpeg,jpg,png,gif,jfif}",
-  Projects = "/src/content/projects/**/*.{jpeg,jpg,png,gif,jfif,mp4}",
-  Store = "/src/content/store/**/*.{jpeg,jpg,png,gif,jfif}",
-}
+const { entry, mediaSource, mediaFolder, sortByName = false } = Astro.props;
 
-async function loadMedia(source: MediaSources) {
-  switch (source) {
-    case MediaSources.Projects:
-      return await Astro.glob(MediaSources.Projects);
-    default:
-      return [];
+let media: ImageMetadata[] | undefined;
+if (mediaSource && mediaFolder) {
+  media = await MediaUtils.loadMedia(mediaSource, mediaFolder);
+} else if (entry?.id) {
+  const ms = MediaUtils.getMediaSource(entry);
+  const mf = PathUtils.getPathFromId(entry.id);
+  if (mf.length > 0) {
+    media = await MediaUtils.loadMedia(ms, mf);
   }
 }
 
-function filterMedia(ms) {
-  let values = Object.values(ms).map((m) => m.default?.src ?? m.default ?? "");
-  let filtered = values.filter((v) => {
-    let tokens = v.split("/");
-    if (tokens.length >= 2) {
-      return tokens[tokens.length - 2] == filter;
-    }
-
-    return false;
-  });
-
-  return filtered;
+if (sortByName) {
+  media?.sort((a, b) =>
+    PathUtils.getFileNameFromPath(a.src)
+      .toLocaleLowerCase()
+      .localeCompare(PathUtils.getFileNameFromPath(b.src).toLocaleLowerCase()),
+  );
+} else {
+  media?.sort(() => Math.random() - 0.5);
 }
-
-const { mediaSource, folder: filter } = Astro.props;
-let media = await loadMedia(mediaSource);
-media = filterMedia(media);
-media.sort(() => Math.random() - 0.5);
 ---
 
-<div
-  class="mx-auto container my-8 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5"
->
-  {media.map((m) => <ImageWithModal src={m} alt="" />)}
-</div>
+{
+  media && (
+    <slot name="header">
+      <h2 class="mb-0">Media</h2>
+    </slot>
+  )
+}
+{
+  media && (
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {media!.map((m) => (
+        <div class="h-40 max-w-full sm:max-w-1/2 md:max-w-1/3 lg:max-w-1/4">
+          <DaisyLightbox
+            src={m.src}
+            alt={PathUtils.getFileNameFromPath(m.src)}
+            imgClass="object-cover object-center h-full w-full"
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
