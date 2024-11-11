@@ -1,5 +1,6 @@
 import { z, defineCollection } from "astro:content";
-import { entrySchema, entryWithTagsSchema, metaSchema } from "../lib/Entry.ts"
+import { entrySchema, entryWithTagsSchema, metaSchema } from "@lib/Entry.ts"
+import { workProjectSchema } from "@lib/WorkProject.ts"
 
 const blogPostSchema = entryWithTagsSchema.merge(z.object({
     publicationDate: z.coerce.date(),
@@ -28,12 +29,14 @@ const blogPostsCollection = defineCollection({ schema: blogPostSchema });
 const storeItemsCollection = defineCollection({ schema: storeItemSchema });
 const projectsCollection = defineCollection({ schema: projectSchema });
 const hobbiesCollection = defineCollection({ schema: hobbySchema });
+const workCollection = defineCollection({ schema: workProjectSchema });
 
 export const collections = {
     'blog': blogPostsCollection,
     'store': storeItemsCollection,
     'projects': projectsCollection,
     'hobbies': hobbiesCollection,
+    'work': workCollection,
 }
 
 const blogPostWithMetaSchema = blogPostSchema.merge(metaSchema);

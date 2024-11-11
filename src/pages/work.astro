@@ -1,6 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HorizontalCard from "../components/HorizontalCard.astro";
+import WorkCard from "@components/WorkCard.astro";
+import * as WorkUtils from "@lib/WorkUtils";
+
+const productInfoDisplays = await WorkUtils.getWorkProject(
+  "retail/productinfodisplays",
+);
 ---
 
 <BaseLayout title="Work" sideBarActiveItemID="work">
@@ -28,13 +34,7 @@ import HorizontalCard from "../components/HorizontalCard.astro";
   <div>
     <div class="text-3xl w-full font-bold mb-5 mt-10">Online Retail</div>
   </div>
-
-  <HorizontalCard
-    title="Retail Product Displays"
-    img="/post_img.webp"
-    desc="Designed the electronics and mounting hardware for product information displays used in the retail stores of one of the largest online retailers in Switzerland."
-    url="#"
-  />
+  <WorkCard workProject={productInfoDisplays!} />
   <div class="divider my-0"></div>
   <HorizontalCard
     title="Work Project 4"

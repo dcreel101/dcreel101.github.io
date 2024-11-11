@@ -1,0 +1,40 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { type WorkProject } from "@lib/WorkUtils";
+import WorkHeroImage from "@components/WorkHeroImage.astro";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+export interface Props {
+  workProject: WorkProject;
+}
+
+const { workProject } = Astro.props;
+dayjs.extend(localizedFormat);
+---
+
+<BaseLayout
+  title={workProject.title}
+  description={workProject.description}
+  image={workProject.heroImage}
+  ogType="article"
+>
+  <main class="md:flex md:justify-center">
+    <article class="prose prose-lg max-w-full prose-img:mx-auto">
+      <WorkHeroImage workProject={workProject} />
+      <h1 class="title my-2 text-4xl font-bold">
+        {workProject.title}
+      </h1>
+      {
+        workProject.updatedDate && (
+          <div>
+            Last Updated:{" "}
+            <time>{workProject.updatedDate.toLocaleDateString()}</time>
+          </div>
+        )
+      }
+      <div class="divider my-2"></div>
+      <slot name="content" />
+    </article>
+  </main>
+</BaseLayout>

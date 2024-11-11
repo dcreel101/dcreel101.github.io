@@ -1,0 +1,43 @@
+---
+import * as MediaUtils from "@lib/MediaUtils";
+import * as PathUtils from "@lib/PathUtils";
+import * as WorkUtils from "@lib/WorkUtils";
+import { type ImageMetadata } from "astro";
+
+interface Props {
+  workProject: WorkUtils.WorkProject;
+}
+
+const { workProject } = Astro.props;
+
+async function loadImage(
+  imageName: string,
+): Promise<ImageMetadata | undefined> {
+  let media: ImageMetadata | undefined;
+  if (workProject.id) {
+    const mf = PathUtils.getPathFromId(workProject.id);
+    media = await MediaUtils.loadSingleMedia(
+      MediaUtils.MediaSources.Work,
+      mf,
+      imageName,
+    );
+  }
+
+  return media;
+}
+
+let media: ImageMetadata | undefined;
+if (workProject.heroImage) {
+  media = await loadImage(workProject.heroImage);
+}
+---
+
+{
+  media && (
+    <img
+      src={media.src}
+      alt={workProject.title}
+      class="w-full max-h-[32rem] object-cover object-center rounded-xl cursor-pointer"
+    />
+  )
+}

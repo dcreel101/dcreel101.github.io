@@ -3,12 +3,10 @@ import { Icon } from "astro-icon/components";
 export type Props = {
   src: string;
   alt?: string;
-  width?: any;
-  height?: any;
   imgClass?: string;
 };
 
-const { src, alt, width, height, imgClass } = Astro.props;
+const { src, alt, imgClass } = Astro.props;
 const dialogId = "daisyLightbox_" + Math.random().toString(16).slice(2);
 ---
 
@@ -16,8 +14,6 @@ const dialogId = "daisyLightbox_" + Math.random().toString(16).slice(2);
   onclick=`${dialogId}.showModal()`
   src={src}
   alt={alt}
-  width={width}
-  height={height}
   class={imgClass + " rounded-xl cursor-pointer"}
 />
 <dialog id={dialogId} class="modal">

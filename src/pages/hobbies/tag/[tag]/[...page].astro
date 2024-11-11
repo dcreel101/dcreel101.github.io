@@ -30,6 +30,7 @@ const params = Astro.params;
 <EntryListLayout
   title={`Hobbies (${params.tag})`}
   sideBarActiveItemID="hobbies"
+  showAllTag={true}
   pagingPrevUrl={page.url.prev}
   pagingNextUrl={page.url.next}
   entries={page.data.map((d) => d.props.entryWrapper)}

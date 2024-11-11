@@ -1,0 +1,58 @@
+---
+import * as MediaUtils from "@lib/MediaUtils";
+import * as PathUtils from "@lib/PathUtils";
+import * as WorkUtils from "@lib/WorkUtils";
+import { type ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  workProject: WorkUtils.WorkProject;
+  defaultIcon?: string;
+}
+
+const { workProject, defaultIcon } = Astro.props;
+async function loadImage(
+  imageName: string,
+): Promise<ImageMetadata | undefined> {
+  let media: ImageMetadata | undefined;
+  if (workProject.id) {
+    const mf = PathUtils.getPathFromId(workProject.id);
+    media = await MediaUtils.loadSingleMedia(
+      MediaUtils.MediaSources.Work,
+      mf,
+      imageName,
+    );
+  }
+
+  return media;
+}
+
+let media: ImageMetadata | undefined;
+if (!workProject.cardIcon) {
+  if (workProject.heroImage) {
+    media = await loadImage(workProject.heroImage);
+  }
+}
+---
+
+<div class="w-40 h-40">
+  {
+    !media && (workProject.cardIcon || defaultIcon) && (
+      <Icon
+        name={workProject.cardIcon ?? defaultIcon}
+        is:inline={true}
+        class="rounded-xl object-cover object-center h-full w-full"
+      />
+    )
+  }
+  {
+    media && (
+      <Image
+        src={media}
+        alt={workProject.title}
+        class="rounded-xl object-cover object-center h-full w-full"
+      />
+    )
+  }
+</div>

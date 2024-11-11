@@ -4,7 +4,7 @@ module.exports = {
 	theme: {
 		extend: {},
 	},
-	plugins: [require("@tailwindcss/typography"),require("daisyui")],
+	plugins: [require("@tailwindcss/typography"), require("daisyui"), require('@tailwindcss/forms')],
 	daisyui: {
 		themes: ["lofi", "aqua", "synthwave", "night"], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]
 		darkTheme: "night", // name of one of the included themes for dark mode

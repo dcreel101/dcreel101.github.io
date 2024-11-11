@@ -6,7 +6,7 @@ import EntryCard from "@components/EntryCard.astro";
 export interface Props {
     title: string;
     sideBarActiveItemID: string;
-    tagsBaseUrl?: string;
+    showAllTag?: boolean;
     pagingPrevUrl: string;
     pagingNextUrl: string;
     entries: EntryUtils.Entry[] | EntryUtils.EntryWithTags[];
@@ -17,6 +17,7 @@ export interface Props {
 const {
     title,
     sideBarActiveItemID,
+    showAllTag = false,
     pagingPrevUrl,
     pagingNextUrl,
     entries,
@@ -29,6 +30,16 @@ const tagCountsByTag = EntryUtils.getTagCountsByTag(entries);
 <BaseLayout title={title} sideBarActiveItemID={sideBarActiveItemID}>
     <div class="mb-5">
         <div class="text-3xl w-full font-bold">{title}</div>
+        {
+            showAllTag && entries.length > 0 && tagCountsByTag?.length > 0 && (
+                <a
+                    href={`/${entries[0].collection}`}
+                    class="badge badge-outline mr-2 no-underline"
+                >
+                    ALL
+                </a>
+            )
+        }
         {
             entries.length > 0 &&
                 tagCountsByTag &&

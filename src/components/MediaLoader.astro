@@ -8,6 +8,7 @@ export enum MediaSources {
     Projects = "/src/content/projects",
     Store = "/src/content/store",
     Hobbies = "/src/content/hobbies",
+    Work = "/src/content/work",
 }
 
 export async function loadAllMedia(
@@ -38,6 +39,11 @@ export async function loadAllMedia(
             case MediaSources.Hobbies:
                 mediaRecords = await Astro.glob(
                     MediaSources.Hobbies + MediaFilter.Value,
+                );
+                break;
+            case MediaSources.Work:
+                mediaRecords = await Astro.glob(
+                    MediaSources.Work + MediaFilter.Value,
                 );
                 break;
             default:
