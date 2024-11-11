@@ -6,15 +6,15 @@ export const entrySchema = z.object({
     title: z.string(),
     description: z.string(),
     updatedDate: z.coerce.date(),
-    heroImage: z.string().optional(),
-    cardIcon: z.string().optional(),
-    badge: z.string().optional(),
+    heroImage: z.string().nullable().optional(),
+    cardIcon: z.string().nullable().optional(),
+    badge: z.string().nullable().optional(),
 });
 
 export const entryWithTagsSchema = entrySchema.merge(z.object({
     tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
         message: 'tags must be unique',
-    }).optional(),
+    }).nullable().optional(),
 }));
 
 export const metaSchema = z.object({

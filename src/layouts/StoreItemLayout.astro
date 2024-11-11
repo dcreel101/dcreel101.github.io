@@ -1,76 +1,50 @@
 ---
 import { type StoreItem } from "../content/config";
-import BaseLayout from "./BaseLayout.astro";
+import EntryLayout from "@layouts/EntryLayout.astro";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 
-export interface Props extends StoreItem {}
+export interface Props {
+  storeItem: StoreItem;
+}
 
-const {
-  title,
-  description,
-  updatedDate,
-  heroImage,
-  pricing,
-  oldPricing,
-  checkoutUrl,
-  badge,
-  custom_link,
-  custom_link_label,
-} = Astro.props;
+const { storeItem } = Astro.props;
 
 dayjs.extend(localizedFormat);
-const displayDate = dayjs(updatedDate).format("ll");
-import { Image } from "astro:assets";
+
+const buyText = storeItem.shopUrl ? "Buy" : "Contact";
+const buyUrl =
+  storeItem.shopUrl ??
+  `/contact?subject=${encodeURIComponent("Store item inquiry: " + storeItem.title)}`;
 ---
 
-<BaseLayout title={title} description={description} image={heroImage}>
-  <main class="md:flex md:justify-center">
-    <article class="prose prose-lg max-w-[750px] prose-img:mx-auto">
-      {
-        heroImage && (
-          <Image
-            width={750}
-            height={422}
-            format="webp"
-            src={heroImage}
-            alt={title}
-            class="w-full mb-6"
-          />
-        )
-      }
-      <div class="">
-        <h1 class="title my-2 text-4xl font-bold">
-          {title}
-          {badge && <div class="badge badge-secondary mx-2">{badge}</div>}
-        </h1>
-        <div class="flex place-content-between items-center">
-          <div class="grow md:grow-0">
-            <span class="text-xl mr-1"> {pricing}</span>
-            <span class="text-md opacity-50 line-through">{oldPricing}</span>
-          </div>
-          <div>
-            {
-              custom_link && (
-                <a
-                  class="btn btn-outline grow md:grow-0 ml-4"
-                  href={custom_link}
-                  target="_blank"
-                >
-                  {custom_link_label}
-                </a>
-              )
-            }
-            <a
-              class="btn btn-primary grow md:grow-0 ml-4"
-              href={checkoutUrl}
-              target="_blank">Buy Now</a
-            >
-          </div>
-        </div>
+<EntryLayout entry={storeItem}>
+  <Fragment slot="header">
+    <div class="flex place-content-between items-center">
+      <div class="grow md:grow-0">
+        <span class="text-xl mr-1">{storeItem.price}</span>
+        <span class="text-md opacity-50 line-through">{storeItem.oldPrice}</span
+        >
       </div>
-      <div class="divider my-2"></div>
-      <slot />
-    </article>
-  </main>
-</BaseLayout>
+      <div>
+        {
+          storeItem.customButtonLabel && storeItem.customButtonUrl && (
+            <a
+              class="btn btn-outline grow md:grow-0 ml-4"
+              href={storeItem.customButtonUrl}
+              target="_blank"
+            >
+              {storeItem.customButtonLabel}
+            </a>
+          )
+        }
+        <a
+          class="btn btn-primary grow md:grow-0 ml-4"
+          href={buyUrl}
+          target="_blank">{buyText}</a
+        >
+      </div>
+    </div>
+  </Fragment>
+  <slot name="content" slot="content" />
+</EntryLayout>

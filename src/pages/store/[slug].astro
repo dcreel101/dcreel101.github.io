@@ -1,37 +1,17 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
-import { StoreItemSchema } from "../../content/config";
-import StoreItemLayout from "../../layouts/StoreItemLayout.astro";
+import StoreItemLayout from "@layouts/StoreItemLayout.astro";
+import * as EntryUtils from "@lib/EntryUtils";
 
 export async function getStaticPaths() {
-  const itemEntries = await getCollection("store");
-  return itemEntries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+  const slugs =
+    await EntryUtils.getCollectionSlugEntries<EntryUtils.Entry>("store");
+  return slugs;
 }
 
-interface Props {
-  entry: CollectionEntry<"store">;
-}
-
-const { entry } = Astro.props;
-const item: StoreItemSchema = entry.data;
-const { Content } = await entry.render();
+const { entryWrapper } = Astro.props;
+const { Content } = await Astro.props.render();
 ---
 
-<StoreItemLayout
-  title={item.title}
-  description={item.description}
-  heroImage={item.heroImage}
-  updatedDate={item.updatedDate}
-  heroImage={item.heroImage}
-  pricing={item.pricing}
-  oldPricing={item.oldPricing}
-  checkoutUrl={item.checkoutUrl}
-  badge={item.badge}
-  custom_link={item.custom_link}
-  custom_link_label={item.custom_link_label}
->
-  <Content />
+<StoreItemLayout storeItem={entryWrapper}>
+  <Content slot="content" />
 </StoreItemLayout>

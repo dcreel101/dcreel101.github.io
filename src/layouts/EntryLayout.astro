@@ -30,16 +30,18 @@ dayjs.extend(localizedFormat);
                 mediaSource={mediaSource}
                 mediaFolder={mediaFolder}
             />
-            <h1 class="title my-2 text-4xl font-bold">
-                {entry.title}
+            <div class="flex flex-row items-center">
+                <div class="flex title text-4xl font-bold mr-4">
+                    {entry.title}
+                </div>
                 {
                     entry.badge && (
-                        <div class="badge badge-secondary my-1">
+                        <div class="flex badge badge-secondary">
                             {entry.badge}
                         </div>
                     )
                 }
-            </h1>
+            </div>
             <slot name="tags">
                 {
                     entry.tags &&

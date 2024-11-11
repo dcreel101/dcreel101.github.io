@@ -7,11 +7,11 @@ const blogPostSchema = entryWithTagsSchema.merge(z.object({
 }));
 
 const storeItemSchema = entrySchema.merge(z.object({
-    price: z.string().optional(),
-    oldPrice: z.string().optional(),
-    shopUrl: z.string().optional(),
-    customButtonLabel: z.string().optional(),
-    customButtonUrl: z.string().optional()
+    price: z.string(),
+    oldPrice: z.string().nullable().optional(),
+    shopUrl: z.string().nullable().optional(),
+    customButtonLabel: z.string().nullable().optional(),
+    customButtonUrl: z.string().nullable().optional()
 }));
 
 const projectSchema = entrySchema.merge(z.object({
