@@ -15,14 +15,14 @@ const storeItemSchema = entrySchema.merge(z.object({
 }));
 
 const projectSchema = entrySchema.merge(z.object({
-    status: z.string().optional(),
-    startDate: z.string().optional(),
-    lastActiveDate: z.string().optional(),
+    status: z.string().nullable().optional(),
+    startDate: z.string().nullable().optional(),
+    lastActiveDate: z.string().nullable().optional(),
 }));
 
 const hobbySchema = entryWithTagsSchema.merge(z.object({
-    startDate: z.string().optional(),
-    lastActiveDate: z.string().optional(),
+    startDate: z.string().nullable().optional(),
+    lastActiveDate: z.string().nullable().optional(),
 }));
 
 const blogPostsCollection = defineCollection({ schema: blogPostSchema });

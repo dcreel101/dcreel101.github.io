@@ -9,7 +9,12 @@ interface Props {
   entry?: Entry | EntryWithTags;
   customCollection?: string;
   customFolder?: string;
-  sortByName?: boolean;
+  sortBy?:
+    | "random"
+    | "fileNameText"
+    | "fileNameList"
+    | "captionText"
+    | "captionList";
   fileNames?: string[];
 }
 
@@ -18,13 +23,13 @@ const {
   entry,
   customCollection,
   customFolder,
-  sortByName = false,
+  sortBy = "random",
   fileNames,
 } = Astro.props;
 
 const mediaCaptions = new Map<string, string>(entry?.mediaCaptionsByFilename);
 
-let media: { media: ImageMetadata; caption: string | undefined }[] | undefined;
+let media: { media: ImageMetadata; caption: string }[] | undefined;
 if (customCollection && customFolder) {
   const ms = MediaUtils.getMediaSource(customCollection);
   if (ms) {
@@ -50,6 +55,7 @@ if (customCollection && customFolder) {
   }
 }
 
+// filtering
 if (fileNames && media) {
   // TODO: use a Map?
   let fns = fileNames.map((fn) => fn.toLowerCase());
@@ -58,16 +64,67 @@ if (fileNames && media) {
   );
 }
 
-if (!fileNames && sortByName) {
-  media?.sort((a, b) =>
-    PathUtils.getFileNameFromPath(a.media.src)
-      .toLocaleLowerCase()
-      .localeCompare(
-        PathUtils.getFileNameFromPath(b.media.src).toLocaleLowerCase(),
-      ),
-  );
-} else if (!fileNames) {
-  media?.sort(() => Math.random() - 0.5);
+if (media) {
+  // sorting
+  switch (sortBy) {
+    case "random":
+      media.sort(() => Math.random() - 0.5);
+      break;
+    case "fileNameList": // sort to match list of names as given
+      if (fileNames) {
+        let temp: { media: ImageMetadata; caption: string }[] = [];
+        for (const fn of fileNames) {
+          let m = media.findIndex(
+            (v, _) =>
+              PathUtils.getFileNameFromPath(v.media.src)
+                .toLocaleLowerCase()
+                .localeCompare(fn) == 0,
+          );
+          if (m >= 0) {
+            temp.push(media[m]);
+            media.splice(m, 1);
+          }
+        }
+
+        temp.push(...media);
+        media = temp;
+        break;
+      }
+    // NOTE: fall through if no file list
+    case "fileNameText":
+      media.sort((a, b) =>
+        PathUtils.getFileNameFromPath(a.media.src)
+          .toLocaleLowerCase()
+          .localeCompare(
+            PathUtils.getFileNameFromPath(b.media.src).toLocaleLowerCase(),
+          ),
+      );
+      break;
+    case "captionList": // sort to match list of captions as given
+      if (entry?.mediaCaptionsByFilename) {
+        let temp: { media: ImageMetadata; caption: string }[] = [];
+        for (const [fileName, _] of entry?.mediaCaptionsByFilename) {
+          let m = media.findIndex(
+            (v, _) =>
+              PathUtils.getFileNameFromPath(v.media.src)
+                .toLocaleLowerCase()
+                .localeCompare(fileName) == 0,
+          );
+          if (m >= 0) {
+            temp.push(media[m]);
+            media.splice(m, 1);
+          }
+        }
+
+        temp.push(...media);
+        media = temp;
+        break;
+      }
+    // NOTE: fall through if no caption list
+    case "captionText":
+      media.sort((a, b) => a.caption.localeCompare(b.caption));
+      break;
+  }
 }
 ---
 

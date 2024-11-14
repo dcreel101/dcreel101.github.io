@@ -7,8 +7,7 @@ status: "deployed"
 cardIcon: "hardware"
 ---
 
-<div class="projectSection">
-<p>3S Nugget is a device that interprets the steering wheel control signals in a Mitsubishi 3000GT VR4 (2nd-gen) to the type of signal commonly used by Android car stereo systems.</p>
-<h2>Implementation</h2>
-<p>The device is implemented in an 8-bit Atmel AVR RISC processor. It interprets incoming signals from the steering wheel controls, which are a proprietary serial protocol that I have reverse engineered using a logic analyzer. It then outputs a variable resistance signal as typically required by common Android car stereos. The device is hands-off and lives behind the dashboard in the car.</p>
-</div>
+3S Nugget is a device that interprets the steering wheel control signals in a Mitsubishi 3000GT VR4 (2nd-gen) to the type of signal commonly used by Android car stereo systems.
+
+## Implementation
+The device is implemented in an 8-bit Atmel AVR RISC processor. It interprets incoming signals from the steering wheel controls, which are a proprietary serial protocol that I have reverse engineered using a logic analyzer. It then outputs a variable resistance signal as typically required by common Android car stereos. The device is hands-off and lives behind the dashboard in the car.

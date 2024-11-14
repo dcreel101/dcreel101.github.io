@@ -9,106 +9,80 @@ cardIcon: "software"
 
 import Latex from "@components/Latex.astro";
 
-<div class="projectSection">
-    <p>
-        Resumeker is a tool for generating your own CV using data from a local
-        database and T4 text templates. This allows you to manage your CV data
-        separately from the formatting. For example, you could use the same data
-        to generate <Latex />, HTML, or JSON. If you change the data (get a new
-        job, etc.) you can just regenerate the output without dealing with
-        formatting. It also supports localization of individual data points as
-        well as outputting different levels of detail. Example: a summary résumé
-        in English and a detailed CV in German can be generated from the same
-        dataset.
-    </p>
-    <p>
-        I see a lot of possiblities for industrious users, such as automating
-        form completion online at those pesky duplicate-your-cv-while-applying
-        websites. Currently, I've just used it to generate my own CV in <Latex
-        />->pdf. When I've made it a little more user-friendly, I'll make it
-        public.
-    </p>
+Resumeker is a tool for generating your own CV using data from a local
+database and T4 text templates. This allows you to manage your CV data
+separately from the formatting. For example, you could use the same data
+to generate <Latex />, HTML, or JSON. If you change the data (get a new
+job, etc.) you can just regenerate the output without dealing with
+formatting. It also supports localization of individual data points as
+well as outputting different levels of detail. Example: a summary résumé
+in English and a detailed CV in German can be generated from the same
+dataset.
 
-    <h2>Features</h2>
-    <ul>
-        <li>A local relational database containing data for generating a CV</li>
-        <li>
-            T4 text templating to generate output (<Latex />, HTML, Json, etc)
-        </li>
-        <li>
-            Selectable/configurable levels of detail and visibility in the
-            output for individual data items
-        </li>
-        <li>Localization possible for all data items individually</li>
-    </ul>
+I see a lot of possiblities for industrious users, such as automating
+form completion online at those pesky duplicate-your-cv-while-applying
+websites. Currently, I've just used it to generate my own CV in <Latex/>->pdf. When I've made it a little more user-friendly, I'll make it
+public.
 
-    <h2>Idea</h2>
-    <p>
-        After becoming unemployed on short notice (be sure to push for timely
-        contract renewals, everyone), I had to update my CV in English and
-        German, and potentially translate it to more languages. I also needed to
-        trim down my very lengthy CV for certain job applications, but I wanted
-        to keep the full details available for others. At the same time,
-        everyone was telling me to just let AI rewrite and translate my CV, but
-        the results were pretty pathetic to be honest. It could handle
-        individual sections fairly well, but given a whole document it was doing
-        crazy things like embellishing my skillset and experience to make it
-        more "attractive". I realize that says something about the AI's training
-        data, but I personally refuse to do that.
-    </p>
-    <p>
-        Realizing I had at least 4 formats of the same core data I would need to
-        manage, I decided to build a tool to manage the data itself instead of
-        the resulting documents. It also would give me a way to export my data
-        into formats that could be more easily handled by AI for summarization
-        and localization, like JSON and CSV.
-    </p>
+## Features
+  * A local relational database containing data for generating a CV
+  * T4 text templating to generate output (<Latex />, HTML, Json, etc)
+  * Selectable/configurable levels of detail and visibility in the output for individual data items
+  * Localization possible for all data items individually
 
-    <h2>Data Storage</h2>
-    <p>
-        The data is stored in a local SQLite database. The design has a high
-        degree of normalization, which makes it easy to support localization in
-        an arbitrary number of languages at runtime. Currently, only a single
-        user's CV exists in the database, but it would be trivial to add support
-        for multiple users, such as for a cloud service or self-hosted service.
-    </p>
+## Idea
+After becoming unemployed on short notice (be sure to push for timely
+contract renewals, everyone), I had to update my CV in English and
+German, and potentially translate it to more languages. I also needed to
+trim down my very lengthy CV for certain job applications, but I wanted
+to keep the full details available for others. At the same time,
+everyone was telling me to just let AI rewrite and translate my CV, but
+the results were pretty pathetic to be honest. It could handle
+individual sections fairly well, but given a whole document it was doing
+crazy things like embellishing my skillset and experience to make it
+more "attractive". I realize that says something about the AI's training
+data, but I personally refuse to do that.
 
-    <h2>Software</h2>
-    <p>
-        The software is at a proof-of-concept stage, which basically means it's
-        a .NET console application running some queries and pushing the results
-        to a T4 template engine. It does already support selecting different
-        levels of detail, different languages, and running the output through
-        different template files. It's missing GUIs for both data entry as well
-        as selecting/configuring the output options. I currently use a SQLite
-        browser for data entry, which really isn't ideal.
-    </p>
+Realizing I had at least 4 formats of the same core data I would need to
+manage, I decided to build a tool to manage the data itself instead of
+the resulting documents. It also would give me a way to export my data
+into formats that could be more easily handled by AI for summarization
+and localization, like JSON and CSV.
 
-    <h2><Latex /></h2>
-    <p>
-        Since I didn't attend university, I missed the whole "<Latex /> is the best
-        thing ever for any kind of document!" craze. This will probably be an unpopular
-        opinion, but I really found working with <Latex /> to be a disaster for anything
-        except extremely simple use cases. Everything else is a heap of "it doesn't
-        support that natively, so add a ton of external code to make it work" and
-        "oh that doesn't work since 2011" and "but this doesn't work when used with
-        that" kind of things. It's extremely frustrating, but probably less so if
-        you use it daily and keep up to date on its quirks. I would say that the
-        majority of my effort was spent just trying to get my <Latex /> template
-        to work properly - meaning, align the text and bullet points properly across
-        pages, and heck, even paginate properly. Overall opinion? Good luck. I'd
-        just about rather automate creating MS Office documents.
-    </p>
+## Data Storage
+The data is stored in a local SQLite database. The design has a high
+degree of normalization, which makes it easy to support localization in
+an arbitrary number of languages at runtime. Currently, only a single
+user's CV exists in the database, but it would be trivial to add support
+for multiple users, such as for a cloud service or self-hosted service.
 
-    <h2>TODO</h2>
-    <ul>
-        <li>
-            Minor improvements discovered along the way to a usable output CV
-        </li>
-        <li>GUI for selecting and configuring output options</li>
-        <li>GUI for data entry</li>
-        <li>Prepare example T4 output templates for the public</li>
-        <li>Open-source it</li>
-        <li>Offer a cloud service</li>
-    </ul>
-</div>
+## Software
+The software is at a proof-of-concept stage, which basically means it's
+a .NET console application running some queries and pushing the results
+to a T4 template engine. It does already support selecting different
+levels of detail, different languages, and running the output through
+different template files. It's missing GUIs for both data entry as well
+as selecting/configuring the output options. I currently use a SQLite
+browser for data entry, which really isn't ideal.
+
+## <Latex />
+Since I didn't attend university, I missed the whole "<Latex /> is the best
+thing ever for any kind of document!" craze. This will probably be an unpopular
+opinion, but I really found working with <Latex /> to be a disaster for anything
+except extremely simple use cases. Everything else is a heap of "it doesn't
+support that natively, so add a ton of external code to make it work" and
+"oh that doesn't work since 2011" and "but this doesn't work when used with
+that" kind of things. It's extremely frustrating, but probably less so if
+you use it daily and keep up to date on its quirks. I would say that the
+majority of my effort was spent just trying to get my <Latex /> template
+to work properly - meaning, align the text and bullet points properly across
+pages, and heck, even paginate properly. Overall opinion? Good luck. I'd
+just about rather automate creating MS Office documents.
+
+## TODO
+  * Minor improvements discovered along the way to a usable output CV
+  * GUI for selecting and configuring output options
+  * GUI for data entry
+  * Prepare example T4 output templates for the public
+  * Open-source it
+  * Offer a cloud service

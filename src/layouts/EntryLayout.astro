@@ -16,6 +16,7 @@ const { entry, customCollection, customFolder } = Astro.props;
 dayjs.extend(localizedFormat);
 
 const hideMainGallery = entry.hideMainGallery === true;
+const sortMainGalleryBy = entry.sortMainGalleryBy ?? "fileNameText";
 ---
 
 <BaseLayout
@@ -68,7 +69,7 @@ const hideMainGallery = entry.hideMainGallery === true;
                             entry={entry}
                             customCollection={customCollection}
                             customFolder={customFolder}
-                            sortByName={true}
+                            sortBy={sortMainGalleryBy}
                         />
                     )
                 }
