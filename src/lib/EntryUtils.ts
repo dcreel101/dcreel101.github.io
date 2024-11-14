@@ -92,6 +92,6 @@ export async function getCollectionSlugEntries<TEntry extends (Entry | EntryWith
 
     return entries.map(e => ({
         params: { slug: createSlug(e.entry.title, e.entry.slug!) },
-        props: { entryWrapper: e.entry as TEntry, render: () => e.render() }
+        props: { entryWrapper: e.entry as TEntry, render: e.render }
     }));
 }

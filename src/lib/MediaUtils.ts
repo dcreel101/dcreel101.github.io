@@ -1,26 +1,26 @@
 import * as EntryUtils from "@lib/EntryUtils"
 import * as PathUtils from "@lib/PathUtils";
 import { loadAllMedia } from "@components/MediaLoader.astro"
+import { getMediaSource } from "@components/MediaLoader.astro"
 import { MediaSources } from "@components/MediaLoader.astro"
 
 export { MediaSources };
+export { getMediaSource };
 
-export function getMediaSource(
-    entry: EntryUtils.Entry | EntryUtils.EntryWithTags,
-): MediaSources {
-    switch (entry.collection) {
-        case "blog":
-            return MediaSources.Blog;
-        case "hobbies":
-            return MediaSources.Hobbies;
-        case "projects":
-            return MediaSources.Projects;
-        case "store":
-            return MediaSources.Store;
-        default:
-            throw new Error("Unknown collection");
-    }
-}
+// export function getEntryMediaSource(
+//     entry: EntryUtils.Entry | EntryUtils.EntryWithTags,
+// ): MediaSources | undefined {
+//     if (entry.collection) {
+//         return getMediaSourceML(entry.collection);
+//     }
+
+//     return;
+// }
+
+// export function getMediaSource(collection: string
+// ): MediaSources | undefined {
+//     return getMediaSourceML(collection);
+// }
 
 function filterMedia(
     mediaSource: MediaSources,
@@ -31,7 +31,11 @@ function filterMedia(
 
     let filtered = media.filter((v) => {
         let mediaPath = PathUtils.getPathFromId(v.src);
-        return mediaPath.endsWith(containingFolder);
+        if (mediaPath) {
+            return mediaPath.endsWith(containingFolder);
+        }
+
+        return folder.length == 0;
     });
 
     return filtered;

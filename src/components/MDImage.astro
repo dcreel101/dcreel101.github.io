@@ -1,0 +1,42 @@
+---
+import * as PathUtils from "@lib/PathUtils";
+import * as EntryUtils from "@lib/EntryUtils";
+import CollectionMedia, { type MediaInfo } from "./CollectionMedia.astro";
+
+export interface Props {
+  entry: EntryUtils.Entry;
+  fileName: string;
+  alt?: string;
+  class?: string;
+  useLightbox?: boolean;
+  lightboxClass?: string;
+}
+
+const {
+  entry,
+  fileName,
+  alt,
+  class: className,
+  useLightbox = false,
+  lightboxClass,
+} = Astro.props;
+
+let folder: string | undefined;
+if (entry.id) {
+  folder = PathUtils.getPathFromId(entry.id);
+}
+const mediaInfo: MediaInfo = {
+  collection: entry.collection,
+  folder: PathUtils.getPathFromId(entry.id),
+  fileName: fileName,
+};
+---
+
+<CollectionMedia
+  mediaInfo={mediaInfo}
+  alt={alt}
+  class={className ??
+    "w-full max-h-[32rem] object-cover object-center rounded-xl"}
+  useLightbox={useLightbox}
+  lightboxClass={lightboxClass + "rounded-xl"}
+/>

@@ -16,11 +16,13 @@ async function loadImage(
   let media: ImageMetadata | undefined;
   if (workProject.id) {
     const mf = PathUtils.getPathFromId(workProject.id);
-    media = await MediaUtils.loadSingleMedia(
-      MediaUtils.MediaSources.Work,
-      mf,
-      imageName,
-    );
+    if (mf) {
+      media = await MediaUtils.loadSingleMedia(
+        MediaUtils.MediaSources.Work,
+        mf,
+        imageName,
+      );
+    }
   }
 
   return media;

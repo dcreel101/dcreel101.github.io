@@ -1,5 +1,9 @@
 
-export function getPathFromId(id: string): string {
+export function getPathFromId(id?: string): string | undefined {
+    if (!id) {
+        return;
+    }
+
     const lastSlash = id.lastIndexOf('/');
     if (lastSlash > 0) {
         return id.substring(0, lastSlash);

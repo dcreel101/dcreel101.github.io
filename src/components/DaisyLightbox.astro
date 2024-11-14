@@ -4,9 +4,10 @@ export type Props = {
   src: string;
   alt?: string;
   imgClass?: string;
+  lightboxImgClass?: string;
 };
 
-const { src, alt, imgClass } = Astro.props;
+const { src, alt, imgClass, lightboxImgClass } = Astro.props;
 const dialogId = "daisyLightbox_" + Math.random().toString(16).slice(2);
 ---
 
@@ -14,7 +15,7 @@ const dialogId = "daisyLightbox_" + Math.random().toString(16).slice(2);
   onclick=`${dialogId}.showModal()`
   src={src}
   alt={alt}
-  class={imgClass + " rounded-xl cursor-pointer"}
+  class={imgClass + " cursor-pointer"}
 />
 <dialog id={dialogId} class="modal">
   <div class="modal-box w-11/12 max-w-5xl">
@@ -24,7 +25,7 @@ const dialogId = "daisyLightbox_" + Math.random().toString(16).slice(2);
         ><Icon name="close" class="h-2/3 w-2/3" is:inline={true} /></button
       >
     </form>
-    <img src={src} alt={alt} class="rounded-xl" />
+    <img src={src} alt={alt} class={lightboxImgClass} />
   </div>
   <form method="dialog" class="modal-backdrop">
     <button>close</button>

@@ -1,56 +1,28 @@
 ---
-import * as MediaUtils from "@lib/MediaUtils";
 import * as PathUtils from "@lib/PathUtils";
 import * as EntryUtils from "@lib/EntryUtils";
-import DaisyLightbox from "@components/DaisyLightbox.astro";
-import { type ImageMetadata } from "astro";
+import CollectionMedia from "@components/CollectionMedia.astro";
+import { type MediaInfo } from "@components/CollectionMedia.astro";
 
 interface Props {
   entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
-  mediaSource?: MediaUtils.MediaSources;
-  mediaFolder?: string;
+  customCollection?: string;
+  customFolder?: string;
 }
 
-const { entry, mediaSource, mediaFolder } = Astro.props;
+const { entry, customCollection, customFolder } = Astro.props;
 
-async function loadEntryImage(
-  imageName: string,
-): Promise<ImageMetadata | undefined> {
-  let media: ImageMetadata | undefined;
-  if (mediaSource && mediaFolder) {
-    media = await MediaUtils.loadSingleMedia(
-      mediaSource,
-      mediaFolder,
-      imageName,
-    );
-  } else if (entry.id) {
-    const ms = MediaUtils.getMediaSource(entry);
-    const mf = PathUtils.getPathFromId(entry.id);
-    media = await MediaUtils.loadSingleMedia(ms, mf, imageName);
-  }
-
-  return media;
-}
-
-let media: ImageMetadata | undefined;
-let alt: string;
-if (entry.heroImage) {
-  media = await loadEntryImage(entry.heroImage);
-}
-
-if (media) {
-  alt = PathUtils.getFileNameFromPath(media.src);
-} else {
-  alt = "";
-}
+const mediaInfo: MediaInfo = {
+  collection: customCollection ?? entry.collection,
+  folder: customFolder ?? PathUtils.getPathFromId(entry.id),
+  fileName: entry.heroImage,
+};
 ---
 
-{
-  media && (
-    <DaisyLightbox
-      src={media.src}
-      alt={PathUtils.getFileNameFromPath(entry.title)}
-      imgClass="w-full max-h-[32rem] object-cover object-center"
-    />
-  )
-}
+<CollectionMedia
+  mediaInfo={mediaInfo}
+  alt={entry.title}
+  class="w-full max-h-[32rem] object-cover object-center rounded-xl"
+  lightboxClass="rounded-xl"
+  useLightbox={true}
+/>

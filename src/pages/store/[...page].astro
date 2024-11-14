@@ -4,7 +4,7 @@ import * as EntryUtils from "@lib/EntryUtils";
 
 export async function getStaticPaths({ paginate }) {
   const entries =
-    await EntryUtils.getCollectionEntries<EntryUtils.Entry>("store");
+    await EntryUtils.getCollectionEntries<EntryUtils.StoreItem>("store");
   return paginate(entries, { pageSize: 10 });
 }
 
@@ -17,5 +17,5 @@ const { page } = Astro.props;
   pagingPrevUrl={page.url.prev}
   pagingNextUrl={page.url.next}
   entries={page.data}
-  defaultCardIcon="product"
+  defaultCardMedia="product"
 />

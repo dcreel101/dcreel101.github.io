@@ -1,6 +1,5 @@
 ---
 import * as EntryUtils from "@lib/EntryUtils";
-import * as MediaUtils from "@lib/MediaUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Gallery from "@components/Gallery.astro";
 import EntryHeroImage from "@components/EntryHeroImage.astro";
@@ -9,12 +8,14 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 
 export interface Props {
     entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
-    mediaSource?: MediaUtils.MediaSources;
-    mediaFolder?: string;
+    customCollection?: string;
+    customFolder?: string;
 }
 
-const { entry, mediaSource, mediaFolder } = Astro.props;
+const { entry, customCollection, customFolder } = Astro.props;
 dayjs.extend(localizedFormat);
+
+const hideMainGallery = entry.hideMainGallery === true;
 ---
 
 <BaseLayout
@@ -27,8 +28,8 @@ dayjs.extend(localizedFormat);
         <article class="prose prose-lg max-w-full prose-img:mx-auto">
             <EntryHeroImage
                 entry={entry}
-                mediaSource={mediaSource}
-                mediaFolder={mediaFolder}
+                customCollection={customCollection}
+                customFolder={customFolder}
             />
             <div class="flex flex-row items-center">
                 <div class="flex title text-4xl font-bold mr-4">
@@ -60,12 +61,17 @@ dayjs.extend(localizedFormat);
             <div class="divider my-2"></div>
             <slot name="content" />
             <slot name="media">
-                <Gallery
-                    entry={entry}
-                    mediaSource={mediaSource}
-                    mediaFolder={mediaFolder}
-                    sortByName={true}
-                />
+                {
+                    !hideMainGallery && (
+                        <Gallery
+                            headerText="Media"
+                            entry={entry}
+                            customCollection={customCollection}
+                            customFolder={customFolder}
+                            sortByName={true}
+                        />
+                    )
+                }
             </slot>
         </article>
     </main>

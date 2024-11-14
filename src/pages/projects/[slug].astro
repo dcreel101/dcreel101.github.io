@@ -4,9 +4,7 @@ import * as EntryUtils from "@lib/EntryUtils";
 
 export async function getStaticPaths() {
   const slugs =
-    await EntryUtils.getCollectionSlugEntries<EntryUtils.EntryWithTags>(
-      "projects",
-    );
+    await EntryUtils.getCollectionSlugEntries<EntryUtils.Project>("projects");
   return slugs;
 }
 

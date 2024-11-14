@@ -1,15 +1,16 @@
 ---
 import * as EntryUtils from "@lib/EntryUtils";
-import EntryCardImage from "@components/EntryCardImage.astro";
+import EntryCardImage, { type Media } from "@components/EntryCardImage.astro";
+
+export { type Media };
 
 export interface Props {
   entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
-  defaultImage?: ImageMetadata;
-  defaultIcon?: string;
+  defaultMedia?: Media;
   noHover?: boolean;
 }
 
-const { entry, defaultImage, defaultIcon, noHover = false } = Astro.props;
+const { entry, defaultMedia, noHover = false } = Astro.props;
 
 const tagBaseUrl = `/${entry.collection}/tag`;
 ---
@@ -19,11 +20,7 @@ const tagBaseUrl = `/${entry.collection}/tag`;
 >
   <a href={entry.url} target="_self">
     <div class="hero-content flex-col md:flex-row">
-      <EntryCardImage
-        entry={entry}
-        defaultImage={defaultImage}
-        defaultIcon={defaultIcon}
-      />
+      <EntryCardImage entry={entry} defaultMedia={defaultMedia} />
       <div class="grow">
         <h1 class="text-xl font-bold">
           {entry.title}

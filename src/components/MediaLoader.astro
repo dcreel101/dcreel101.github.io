@@ -11,6 +11,21 @@ export enum MediaSources {
     Work = "/src/content/work",
 }
 
+export function getMediaSource(collection: string): MediaSources | undefined {
+    switch (collection) {
+        case "blog":
+            return MediaSources.Blog;
+        case "hobbies":
+            return MediaSources.Hobbies;
+        case "projects":
+            return MediaSources.Projects;
+        case "store":
+            return MediaSources.Store;
+        default:
+            return;
+    }
+}
+
 export async function loadAllMedia(
     source: MediaSources,
 ): Promise<ImageMetadata[]> {

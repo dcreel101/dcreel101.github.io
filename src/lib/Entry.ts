@@ -9,6 +9,8 @@ export const entrySchema = z.object({
     heroImage: z.string().nullable().optional(),
     cardIcon: z.string().nullable().optional(),
     badge: z.string().nullable().optional(),
+    mediaCaptionsByFilename: z.array(z.tuple([z.string(), z.string()])).nullable().optional(),
+    hideMainGallery: z.boolean().nullable().optional()
 });
 
 export const entryWithTagsSchema = entrySchema.merge(z.object({

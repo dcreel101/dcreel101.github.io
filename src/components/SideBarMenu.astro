@@ -7,19 +7,17 @@ const activeClass = "bg-base-300"; // For primary color replace with `active` cl
 const atIndex = CONTACT_ADDRESS.indexOf("@");
 const distraction = Math.random().toString(16).slice(2);
 const contactAddressPart1 =
-    distraction + CONTACT_ADDRESS.substring(0, atIndex - 1); // one char before the @
+distraction + CONTACT_ADDRESS.substring(0, atIndex - 1); // one char before the @
 const contactAddressPart2 =
-    distraction + CONTACT_ADDRESS.substring(atIndex - 1, atIndex + 2); // from one char before to one char after
+distraction + CONTACT_ADDRESS.substring(atIndex - 1, atIndex + 2); // from one char before to one char after
 const contactAddressPart3 =
-    distraction + CONTACT_ADDRESS.substring(atIndex + 2); // from one char after until end
+distraction + CONTACT_ADDRESS.substring(atIndex + 2); // from one char after until end
 ---
 
 <ul class="menu grow shrink menu-md overflow-y-auto">
     <li><a class="py-3 text-base" id="home" href="/">Home</a></li>
     <li>
-        <a class="py-3 text-base" id="projects" href="/projects/"
-            >Personal Projects</a
-        >
+        <a class="py-3 text-base" id="projects" href="/projects/">Personal Projects</a>
     </li>
     <li><a class="py-3 text-base" id="hobbies" href="/hobbies">Hobbies</a></li>
     <li><a class="py-3 text-base" id="blog" href="/blog/">Blog</a></li>
@@ -27,47 +25,14 @@ const contactAddressPart3 =
     <li>
         <a class="py-3 text-base" id="services" href="/services">Services</a>
     </li>
-    <li><a class="py-3 text-base" id="work" href="/work">Work Projects</a></li>
-    <!-- <li><a class="py-3 text-base" id="cv" href="/cv">CV</a></li> -->
+    <!-- <li><a class="py-3 text-base" id="work" href="">Work Projects</a></li> -->
+    <!-- <li><a class="py-3 text-base" id="cv" href="">CV</a></li> -->
     <li>
         <a class="py-3 text-base" id="contact" href="/contact">Contact</a>
-        <!-- <a
-            id="contactEmailLink"
-            class="py-3 text-base"
-            target="_blank"
-            href="#"
-            onclick="window.open(ma);return false;"
-            referrerpolicy="no-referrer-when-downgrade">Contact</a
-        > -->
     </li>
 </ul>
 
-<script
-    define:vars={{
-        sideBarActiveItemID: sideBarActiveItemID,
-        activeClass: activeClass,
-    }}
->
+<script define:vars={{ sideBarActiveItemID: sideBarActiveItemID, activeClass: activeClass, }}>
     const activeItemElem = document.getElementById(sideBarActiveItemID);
     activeItemElem && activeItemElem.classList.add(activeClass);
 </script>
-
-<!-- <script
-    lang="javascript"
-    define:vars={{
-        distraction,
-        contactAddressPart1,
-        contactAddressPart2,
-        contactAddressPart3,
-    }}
->
-    let ma =
-        "mailto:" +
-        contactAddressPart1.replaceAll(distraction, "") +
-        contactAddressPart2.replaceAll(distraction, "") +
-        contactAddressPart3.replaceAll(distraction, "");
-    document.getElementById("contactEmailLink").onclick = () => {
-        window.location.href = ma;
-        return false;
-    };
-</script> -->

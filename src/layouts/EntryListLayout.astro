@@ -1,7 +1,9 @@
 ---
 import * as EntryUtils from "@lib/EntryUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import EntryCard from "@components/EntryCard.astro";
+import EntryCard, {
+    type Media as CardMedia,
+} from "@components/EntryCard.astro";
 
 export interface Props {
     title: string;
@@ -10,8 +12,7 @@ export interface Props {
     pagingPrevUrl: string;
     pagingNextUrl: string;
     entries: EntryUtils.Entry[] | EntryUtils.EntryWithTags[];
-    defaultCardImage?: ImageMetadata;
-    defaultCardIcon?: string;
+    defaultCardMedia?: CardMedia;
 }
 
 const {
@@ -21,8 +22,7 @@ const {
     pagingPrevUrl,
     pagingNextUrl,
     entries,
-    defaultCardImage,
-    defaultCardIcon,
+    defaultCardMedia,
 } = Astro.props;
 const tagCountsByTag = EntryUtils.getTagCountsByTag(entries);
 ---
@@ -66,8 +66,7 @@ const tagCountsByTag = EntryUtils.getTagCountsByTag(entries);
                         <li>
                             <EntryCard
                                 entry={e}
-                                defaultImage={defaultCardImage}
-                                defaultIcon={defaultCardIcon}
+                                defaultMedia={defaultCardMedia}
                             />
                             <div class="divider my-0" />
                         </li>
