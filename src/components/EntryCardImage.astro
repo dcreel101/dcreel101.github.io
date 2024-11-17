@@ -38,7 +38,7 @@ if (defaultMedia && isImageMetadata(defaultMedia)) {
     mediaInfo={mediaInfo}
     fallbackMedia={fallbackMedia}
     alt={entry.title}
-    class="rounded-xl object-cover object-center h-full w-full"
+    class="h-full w-full"
     useLightbox={false}
   >
     {
@@ -47,7 +47,7 @@ if (defaultMedia && isImageMetadata(defaultMedia)) {
           slot="fallbackContent"
           name={icon}
           is:inline={true}
-          class="rounded-xl object-cover object-center h-full w-full"
+          class="rounded-box object-cover object-center h-full w-full"
         />
       )
     }

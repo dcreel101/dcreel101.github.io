@@ -1,7 +1,7 @@
 ---
 import * as EntryUtils from "@lib/EntryUtils";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import Gallery from "@components/Gallery.astro";
+import LightboxGallery from "@components/LightboxGallery.astro";
 import EntryHeroImage from "@components/EntryHeroImage.astro";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -64,7 +64,7 @@ const sortMainGalleryBy = entry.sortMainGalleryBy ?? "fileNameText";
             <slot name="media">
                 {
                     !hideMainGallery && (
-                        <Gallery
+                        <LightboxGallery
                             headerText="Media"
                             entry={entry}
                             customCollection={customCollection}

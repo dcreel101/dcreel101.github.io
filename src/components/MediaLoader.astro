@@ -33,31 +33,31 @@ export async function loadAllMedia(
         Value = "/**/*.{jpeg,jpg,png,gif,jfif,mp4}",
     }
 
-    let mediaRecords: Record<string, any>[];
+    let mediaRecords: Record<string, ImageMetadata>[];
     try {
         switch (source) {
             case MediaSources.Blog:
-                mediaRecords = await Astro.glob(
+                mediaRecords = await Astro.glob<{ default: ImageMetadata }>(
                     MediaSources.Blog + MediaFilter.Value,
                 );
                 break;
             case MediaSources.Projects:
-                mediaRecords = await Astro.glob(
+                mediaRecords = await Astro.glob<{ default: ImageMetadata }>(
                     MediaSources.Projects + MediaFilter.Value,
                 );
                 break;
             case MediaSources.Store:
-                mediaRecords = await Astro.glob(
+                mediaRecords = await Astro.glob<{ default: ImageMetadata }>(
                     MediaSources.Store + MediaFilter.Value,
                 );
                 break;
             case MediaSources.Hobbies:
-                mediaRecords = await Astro.glob(
+                mediaRecords = await Astro.glob<{ default: ImageMetadata }>(
                     MediaSources.Hobbies + MediaFilter.Value,
                 );
                 break;
             case MediaSources.Work:
-                mediaRecords = await Astro.glob(
+                mediaRecords = await Astro.glob<{ default: ImageMetadata }>(
                     MediaSources.Work + MediaFilter.Value,
                 );
                 break;
@@ -71,7 +71,7 @@ export async function loadAllMedia(
 
     const media: ImageMetadata[] = Object.values(mediaRecords)
         .filter((mr) => isImageMetadata(mr.default))
-        .map((mr) => mr.default!);
+        .map((mr) => mr.default);
 
     return media;
 }

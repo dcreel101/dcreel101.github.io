@@ -9,7 +9,6 @@ export interface Props {
   alt?: string;
   class?: string;
   useLightbox?: boolean;
-  lightboxClass?: string;
 }
 
 const {
@@ -18,13 +17,8 @@ const {
   alt,
   class: className,
   useLightbox = false,
-  lightboxClass,
 } = Astro.props;
 
-let folder: string | undefined;
-if (entry.id) {
-  folder = PathUtils.getPathFromId(entry.id);
-}
 const mediaInfo: MediaInfo = {
   collection: entry.collection,
   folder: PathUtils.getPathFromId(entry.id),
@@ -35,8 +29,6 @@ const mediaInfo: MediaInfo = {
 <CollectionMedia
   mediaInfo={mediaInfo}
   alt={alt}
-  class={className ??
-    "w-full max-h-[32rem] object-cover object-center rounded-xl"}
+  class={className ?? "w-full max-h-[32rem]"}
   useLightbox={useLightbox}
-  lightboxClass={lightboxClass + "rounded-xl"}
 />

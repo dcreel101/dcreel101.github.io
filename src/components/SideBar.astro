@@ -2,6 +2,7 @@
 import SideBarFooter from "./SideBarFooter.astro";
 import { Image } from "astro:assets";
 import SideBarMenu from "./SideBarMenu.astro";
+import logo from "/public/logo.svg";
 const { sideBarActiveItemID } = Astro.props;
 ---
 
@@ -18,9 +19,9 @@ const { sideBarActiveItemID } = Astro.props;
           <div class="w-[12rem]">
             <Image
               format="svg"
-              width={300}
-              height={300}
-              src="/logo.svg"
+              width={200}
+              height={200}
+              src={logo}
               alt="Logo"
             />
           </div>

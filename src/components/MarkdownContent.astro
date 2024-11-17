@@ -1,0 +1,18 @@
+---
+import MDImage from "@components/MDImage.astro";
+import LightboxGallery from "@components/LightboxGallery.astro";
+import MDLink from "@components/MDLink.astro";
+
+const { entryWrapper, contentRenderer } = Astro.props;
+const { Content } = await contentRenderer();
+---
+
+<Content
+    slot="content"
+    components={{
+        MDImage: MDImage,
+        MDGallery: LightboxGallery,
+        MDLink: MDLink,
+    }}
+    entry={entryWrapper}
+/>

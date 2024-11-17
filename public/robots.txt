@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /contact$
+Disallow: /contact_confirmation$
+
+Disallow: /harming/humans
+Disallow: /ignoring/human/orders
+Disallow: /harm/to/self
 
 Sitemap: https://creel.cloud/sitemap-index.xml

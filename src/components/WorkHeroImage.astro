@@ -3,6 +3,7 @@ import * as MediaUtils from "@lib/MediaUtils";
 import * as PathUtils from "@lib/PathUtils";
 import * as WorkUtils from "@lib/WorkUtils";
 import { type ImageMetadata } from "astro";
+import { Image } from "astro:assets";
 
 interface Props {
   workProject: WorkUtils.WorkProject;
@@ -36,10 +37,10 @@ if (workProject.heroImage) {
 
 {
   media && (
-    <img
-      src={media.src}
+    <Image
+      src={media}
       alt={workProject.title}
-      class="w-full max-h-[32rem] object-cover object-center rounded-xl cursor-pointer"
+      class="w-full max-h-[32rem] object-cover object-center rounded-box cursor-pointer"
     />
   )
 }

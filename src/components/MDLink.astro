@@ -1,0 +1,18 @@
+---
+export interface Props {
+  href: string;
+  caption?: string;
+  openNewTab?: boolean;
+}
+
+const { href, caption, openNewTab = true } = Astro.props;
+
+let aProps = {
+  ...(caption && { title: caption }),
+  ...(openNewTab && { target: "_blank", rel: "noopener" }),
+};
+
+const text = caption ?? href;
+---
+
+<a href={href} {...aProps}><slot>{text}</slot></a>

@@ -1,23 +1,14 @@
 ---
-import { CONTACT_ADDRESS } from "src/config";
-
 const { sideBarActiveItemID } = Astro.props;
 const activeClass = "bg-base-300"; // For primary color replace with `active` class
-
-const atIndex = CONTACT_ADDRESS.indexOf("@");
-const distraction = Math.random().toString(16).slice(2);
-const contactAddressPart1 =
-distraction + CONTACT_ADDRESS.substring(0, atIndex - 1); // one char before the @
-const contactAddressPart2 =
-distraction + CONTACT_ADDRESS.substring(atIndex - 1, atIndex + 2); // from one char before to one char after
-const contactAddressPart3 =
-distraction + CONTACT_ADDRESS.substring(atIndex + 2); // from one char after until end
 ---
 
 <ul class="menu grow shrink menu-md overflow-y-auto">
     <li><a class="py-3 text-base" id="home" href="/">Home</a></li>
     <li>
-        <a class="py-3 text-base" id="projects" href="/projects/">Personal Projects</a>
+        <a class="py-3 text-base" id="projects" href="/projects/"
+            >Personal Projects</a
+        >
     </li>
     <li><a class="py-3 text-base" id="hobbies" href="/hobbies">Hobbies</a></li>
     <li><a class="py-3 text-base" id="blog" href="/blog/">Blog</a></li>
@@ -32,7 +23,12 @@ distraction + CONTACT_ADDRESS.substring(atIndex + 2); // from one char after unt
     </li>
 </ul>
 
-<script define:vars={{ sideBarActiveItemID: sideBarActiveItemID, activeClass: activeClass, }}>
+<script
+    define:vars={{
+        sideBarActiveItemID: sideBarActiveItemID,
+        activeClass: activeClass,
+    }}
+>
     const activeItemElem = document.getElementById(sideBarActiveItemID);
     activeItemElem && activeItemElem.classList.add(activeClass);
 </script>

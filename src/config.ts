@@ -8,4 +8,3 @@ export const SITE_DESCRIPTION = 'This is the personal site of David Creel, a pro
     + ' opportunities involving relevant skillsets.';
 export const GENERATE_SLUG_FROM_TITLE = true
 export const TRANSITION_API = true
-export const CONTACT_ADDRESS = "website1@creel.cloud";

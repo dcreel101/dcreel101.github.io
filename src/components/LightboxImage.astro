@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+import ModalDialog, { getShowDialogCode } from "@components/ModalDialog.astro";
+
+export type Props = {
+  media: ImageMetadata;
+  caption?: string;
+  class?: string;
+  dialogId?: string;
+};
+
+const {
+  media,
+  caption = "",
+  class: imgClass,
+  dialogId = "lightboxImage" + Math.random().toString(16).slice(2),
+} = Astro.props;
+---
+
+<Image
+  onclick={getShowDialogCode(dialogId)}
+  src={media}
+  alt={caption}
+  class={imgClass + " object-cover object-center rounded-box cursor-pointer"}
+/>
+<ModalDialog id={dialogId} width=`${media.width}px` height=`${media.height}px`>
+  <div class="size-full flex flex-col">
+    <div class="w-full h-12 mb-2 shrink-0 relative">
+      <span class="text-2xl text-bold absolute bottom-0 mb-1">{caption}</span>
+    </div>
+    <div class="size-full content-center overflow-auto rounded-box">
+      <Image src={media} alt={caption} class="m-0 w-full h-auto rounded-box" />
+    </div>
+  </div>
+</ModalDialog>

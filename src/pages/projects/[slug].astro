@@ -1,6 +1,7 @@
 ---
 import ProjectLayout from "@layouts/ProjectLayout.astro";
 import * as EntryUtils from "@lib/EntryUtils";
+import MarkdownContent from "@components/MarkdownContent.astro";
 
 export async function getStaticPaths() {
   const slugs =
@@ -9,9 +10,12 @@ export async function getStaticPaths() {
 }
 
 const { entryWrapper } = Astro.props;
-const { Content } = await Astro.props.render();
 ---
 
 <ProjectLayout project={entryWrapper}>
-  <Content slot="content" />
+  <MarkdownContent
+    entryWrapper={entryWrapper}
+    slot="content"
+    contentRenderer={Astro.props.render}
+  />
 </ProjectLayout>

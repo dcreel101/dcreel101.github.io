@@ -1,6 +1,7 @@
 ---
 import StoreItemLayout from "@layouts/StoreItemLayout.astro";
 import * as EntryUtils from "@lib/EntryUtils";
+import MarkdownContent from "@components/MarkdownContent.astro";
 
 export async function getStaticPaths() {
   const slugs =
@@ -13,5 +14,9 @@ const { Content } = await Astro.props.render();
 ---
 
 <StoreItemLayout storeItem={entryWrapper}>
-  <Content slot="content" />
+  <MarkdownContent
+    entryWrapper={entryWrapper}
+    slot="content"
+    contentRenderer={Astro.props.render}
+  />
 </StoreItemLayout>

@@ -1,8 +1,7 @@
 ---
 import HobbyLayout from "@layouts/HobbyLayout.astro";
 import * as EntryUtils from "@lib/EntryUtils";
-import MDImage from "@components/MDImage.astro";
-import Gallery from "@components/Gallery.astro";
+import MarkdownContent from "@components/MarkdownContent.astro";
 
 export async function getStaticPaths() {
   const slugs =
@@ -11,13 +10,12 @@ export async function getStaticPaths() {
 }
 
 const { entryWrapper } = Astro.props;
-const { Content } = await Astro.props.render();
 ---
 
 <HobbyLayout hobby={entryWrapper}>
-  <Content
+  <MarkdownContent
+    entryWrapper={entryWrapper}
     slot="content"
-    components={{ MDImage: MDImage, MDGallery: Gallery }}
-    entry={entryWrapper}
+    contentRenderer={Astro.props.render}
   />
 </HobbyLayout>

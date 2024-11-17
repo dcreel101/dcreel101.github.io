@@ -2,6 +2,7 @@
 import BlogPostLayout from "@layouts/BlogPostLayout.astro";
 import * as EntryUtils from "@lib/EntryUtils";
 import type { BlogPost } from "src/content/config";
+import MarkdownContent from "@components/MarkdownContent.astro";
 
 export async function getStaticPaths() {
   const slugs = await EntryUtils.getCollectionSlugEntries<BlogPost>("blog");
@@ -9,9 +10,12 @@ export async function getStaticPaths() {
 }
 
 const { entryWrapper } = Astro.props;
-const { Content } = await Astro.props.render();
 ---
 
 <BlogPostLayout blogPost={entryWrapper}>
-  <Content slot="content" />
+  <MarkdownContent
+    entryWrapper={entryWrapper}
+    slot="content"
+    contentRenderer={Astro.props.render}
+  />
 </BlogPostLayout>
