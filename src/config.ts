@@ -8,3 +8,5 @@ export const SITE_DESCRIPTION = 'This is the personal site of David Creel, a pro
     + ' opportunities involving relevant skillsets.';
 export const GENERATE_SLUG_FROM_TITLE = true
 export const TRANSITION_API = true
+export const FRIENDLYCAPTCHA_SITE_KEY = 'FCMTHV5RE0CMBOK0';
+export const ACCEPT_CONTACTFORM_URL = 'https://ljo4gpgjnbtz2jfwc2ktj33k3a0dyshe.lambda-url.eu-central-1.on.aws/';
