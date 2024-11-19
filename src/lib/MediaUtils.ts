@@ -35,9 +35,10 @@ export async function loadSingleMedia(
     const containingFolder = PathUtils.joinPath(source, folder);
     const filePath = PathUtils.joinPath(containingFolder, fileName);
 
+    console.info(`loadSingleMedia: '${filePath}'`);
     const val = allMedia.find((m) => {
         const mPath = PathUtils.getPathWithoutParams(m.src);
-        console.info(`loadSingleMedia('${filePath}') ?-> '${mPath}'`)
+        console.info(`    ${m.src} -> ${mPath}`);
         return mPath.endsWith(filePath);
     },
     );
@@ -50,6 +51,8 @@ export async function loadMedia(
     folder?: string,
 ): Promise<ImageMetadata[]> {
     let media = await loadAllMedia(source);
+    console.info(`loadMedia: '${source}'`);
+    media.forEach(m => console.info(`    ${m.src}`));
 
     if (folder) {
         media = filterMedia(source, folder, media);
