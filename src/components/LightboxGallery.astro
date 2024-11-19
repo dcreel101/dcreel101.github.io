@@ -148,7 +148,7 @@ const galleryKey = Math.random().toString(16).slice(2);
       type="module"
       define:vars={{ galleryKey, itemCount: media.length }}
     >
-      import initLightboxGallery from "/src/lib/initLightboxGallery";
+      import initLightboxGallery from "../src/lib/initLightboxGallery";
       initLightboxGallery(galleryKey, itemCount);
     </script>
   )
