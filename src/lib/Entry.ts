@@ -1,5 +1,21 @@
 
-import { z } from 'astro:content';
+import { z, type SchemaContext } from 'astro:content';
+
+export const buildEntrySchema = (imageContext: any) => {
+    const xyz = z.object({
+        sort: z.number(),
+        title: z.string(),
+        description: z.string(),
+        updatedDate: z.coerce.date(),
+        heroImage: imageContext.image(),
+        cardIcon: z.string().nullable().optional(),
+        badge: z.string().nullable().optional(),
+        mediaCaptionsByFilename: z.array(z.tuple([z.string(), z.string()])).nullable().optional(),
+        hideMainGallery: z.boolean().nullable().optional(),
+        sortMainGalleryBy: z.enum(["random", "fileNameText", "fileNameList", "captionText", "captionList"]).nullable().optional()
+    });
+    return xyz;
+};
 
 export const entrySchema = z.object({
     sort: z.number(),
@@ -13,6 +29,12 @@ export const entrySchema = z.object({
     hideMainGallery: z.boolean().nullable().optional(),
     sortMainGalleryBy: z.enum(["random", "fileNameText", "fileNameList", "captionText", "captionList"]).nullable().optional()
 });
+
+export const buildEntryWithTagsSchema = (imageContext: any) => buildEntrySchema(imageContext).merge(z.object({
+    tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
+        message: 'tags must be unique',
+    }).nullable().optional(),
+}));
 
 export const entryWithTagsSchema = entrySchema.merge(z.object({
     tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
@@ -28,6 +50,8 @@ export const metaSchema = z.object({
 });
 
 const entrySchemaWithMeta = entrySchema.merge(metaSchema);
+
+export const buildEntryWithTagsSchemaWithMeta = (imageContext: any) => buildEntryWithTagsSchema(imageContext).merge(metaSchema);
 const entryWithTagsSchemaWithMeta = entryWithTagsSchema.merge(metaSchema);
 
 export type Entry = z.infer<typeof entrySchemaWithMeta>;

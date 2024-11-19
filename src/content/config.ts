@@ -1,5 +1,5 @@
-import { z, defineCollection } from "astro:content";
-import { entrySchema, entryWithTagsSchema, metaSchema } from "@lib/Entry.ts"
+import { z, defineCollection, type CollectionConfig, type SchemaContext } from "astro:content";
+import { entrySchema, entryWithTagsSchema, metaSchema, buildEntryWithTagsSchema } from "@lib/Entry.ts"
 import { workProjectSchema } from "@lib/WorkProject.ts"
 
 const blogPostSchema = entryWithTagsSchema.merge(z.object({
@@ -20,15 +20,25 @@ const projectSchema = entrySchema.merge(z.object({
     lastActiveDate: z.string().nullable().optional(),
 }));
 
+export const buildHobbySchema = (imageContext: any) => buildEntryWithTagsSchema(imageContext).merge(z.object({
+    startDate: z.string().nullable().optional(),
+    lastActiveDate: z.string().nullable().optional(),
+}));
 const hobbySchema = entryWithTagsSchema.merge(z.object({
     startDate: z.string().nullable().optional(),
     lastActiveDate: z.string().nullable().optional(),
 }));
 
+// schema?: S | ((context: SchemaContext) => S);
+const hobbySchemaConfig: CollectionConfig<typeof hobbySchema> = {
+    schema: (context: SchemaContext) => buildHobbySchema(context),
+}
+
 const blogPostsCollection = defineCollection({ schema: blogPostSchema });
 const storeItemsCollection = defineCollection({ schema: storeItemSchema });
 const projectsCollection = defineCollection({ schema: projectSchema });
-const hobbiesCollection = defineCollection({ schema: hobbySchema });
+// const hobbiesCollection = defineCollection({ schema: () => hobbySchema });
+const hobbiesCollection = defineCollection(hobbySchemaConfig);
 const workCollection = defineCollection({ schema: workProjectSchema });
 
 export const collections = {
