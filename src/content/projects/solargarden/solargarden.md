@@ -2,10 +2,16 @@
 sort: 1
 title: "Solar Garden"
 description: "Solar-powered Japanese garden fountain and Buddhist stone lantern with WiFi control"
-updatedDate: "2017"
+updatedDate: 2024-11-19
+lastActiveDate: "2017"
 status: "demolished"
-heroImage: "solargarden.png"
-mediaFolder: "solargarden"
+heroImage: ./solargarden.png
+galleryImages:
+  - ['Stone Lantern', ./lantern.png]
+  - ['Desktop Fountain', ./desktopfountain.jpg]
+  - ['Desktop Fountain', ./desktopfountain2.jpg]
+  - ['Desktop Fountain', ./desktopfountain3.jpg]
+  
 ---
 
 This project is a solar-powered fountain and lantern designed in a traditional Japanese style. The fountain

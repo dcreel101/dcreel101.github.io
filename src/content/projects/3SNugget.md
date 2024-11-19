@@ -2,7 +2,8 @@
 sort: 10
 title: "3S Nugget"
 description: "Steering wheel radio controls translator"
-updatedDate: "2014"
+updatedDate: 2024-11-19
+lastActiveDate: "2014"
 status: "deployed"
 cardIcon: "hardware"
 ---

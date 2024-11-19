@@ -3,9 +3,9 @@ sort: 10
 title: Team Spectre Rings
 description: Signet rings with the team logo, made from cast silver
 startDate: '2017'
-updatedDate: 2024-10-22
+updatedDate: 2024-11-19
 lastActiveDate: '2017'
-heroImage: spectrerings.jpg
+heroImage: ./spectrerings.jpg
 tags:
     - jewelry
     - ring

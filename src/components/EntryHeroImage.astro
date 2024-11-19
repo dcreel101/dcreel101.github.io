@@ -1,28 +1,21 @@
 ---
-import * as PathUtils from "@lib/PathUtils";
 import * as EntryUtils from "@lib/EntryUtils";
 import CollectionMedia from "@components/CollectionMedia.astro";
-import { type MediaInfo } from "@components/CollectionMedia.astro";
 
 interface Props {
-  entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
-  customCollection?: string;
-  customFolder?: string;
+  entry: EntryUtils.Entry;
 }
 
-const { entry, customCollection, customFolder } = Astro.props;
-
-const mediaInfo: MediaInfo = {
-  collection: customCollection ?? entry.collection,
-  folder: customFolder ?? PathUtils.getPathFromId(entry.id),
-  fileName: entry.heroImage,
-};
+const { entry } = Astro.props;
 ---
 
-<br /><span>TEST mediaInfo: {JSON.stringify(mediaInfo)}</span>
-<CollectionMedia
-  mediaInfo={mediaInfo}
-  alt={entry.title}
-  class="w-full max-h-[32rem]"
-  useLightbox={true}
-/>
+{
+  entry.heroImage && (
+    <CollectionMedia
+      media={entry.heroImage}
+      alt={entry.title}
+      class="w-full max-h-[32rem]"
+      useLightbox={true}
+    />
+  )
+}

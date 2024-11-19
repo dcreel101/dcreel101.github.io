@@ -1,55 +1,61 @@
 ---
-import * as PathUtils from "@lib/PathUtils";
 import * as EntryUtils from "@lib/EntryUtils";
 import { type ImageMetadata } from "astro";
 import { Icon } from "astro-icon/components";
 import CollectionMedia from "@components/CollectionMedia.astro";
-import { type MediaInfo } from "@components/CollectionMedia.astro";
 import { isImageMetadata } from "node_modules/astro/dist/assets/types";
 
 export type IconName = string;
 export type Media = ImageMetadata | IconName;
 interface Props {
-  entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
-  customCollection?: string;
-  customFolder?: string;
+  entry: EntryUtils.Entry;
   defaultMedia?: Media;
 }
 
-const { entry, customCollection, customFolder, defaultMedia } = Astro.props;
-
-const mediaInfo: MediaInfo = {
-  collection: customCollection ?? entry.collection,
-  folder: customFolder ?? PathUtils.getPathFromId(entry.id),
-  fileName: entry.heroImage,
-};
-
-let icon = entry.cardIcon;
-let fallbackMedia: ImageMetadata | undefined;
-if (defaultMedia && isImageMetadata(defaultMedia)) {
-  fallbackMedia = defaultMedia;
-} else if (!icon) {
-  icon = defaultMedia;
-}
+const { entry, defaultMedia } = Astro.props;
 ---
 
 <div class="w-40 h-40">
-  <CollectionMedia
-    mediaInfo={mediaInfo}
-    fallbackMedia={fallbackMedia}
-    alt={entry.title}
-    class="h-full w-full"
-    useLightbox={false}
-  >
-    {
-      icon && (
+  {
+    entry.cardIcon && (
+      <Icon
+        name={entry.cardIcon}
+        is:inline={true}
+        class="rounded-box object-cover object-center h-full w-full"
+      />
+    )
+  }
+  {
+    !entry.cardIcon && entry.heroImage && (
+      <CollectionMedia
+        media={entry.heroImage}
+        alt={entry.title}
+        class="h-full w-full"
+        useLightbox={false}
+      />
+    )
+  }
+  {
+    !entry.cardIcon && !entry.heroImage && isImageMetadata(defaultMedia) && (
+      <CollectionMedia
+        media={defaultMedia}
+        alt={entry.title}
+        class="h-full w-full"
+        useLightbox={false}
+      />
+    )
+  }
+  {
+    !entry.cardIcon &&
+      !entry.heroImage &&
+      !isImageMetadata(defaultMedia) &&
+      defaultMedia && (
         <Icon
           slot="fallbackContent"
-          name={icon}
+          name={defaultMedia}
           is:inline={true}
           class="rounded-box object-cover object-center h-full w-full"
         />
       )
-    }
-  </CollectionMedia>
+  }
 </div>

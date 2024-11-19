@@ -2,7 +2,8 @@
 sort: 10
 title: "Tiny BC"
 description: "Tiny turbocharger boost controller"
-updatedDate: "2010"
+updatedDate: 2024-11-19
+lastActiveDate: "2010"
 status: "deployed/deprecated"
 cardIcon: "hardware"
 ---

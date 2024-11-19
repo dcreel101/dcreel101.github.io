@@ -15,23 +15,11 @@ export interface GalleryMediaInfo {
 
 export async function loadGalleryMedia(
     entry?: Entry | EntryWithTags,
-    customCollection?: string,
-    customFolder?: string,
     fileNames?: string[]): Promise<GalleryMediaInfo[] | undefined> {
     const mediaCaptions = new Map<string, string>(entry?.mediaCaptionsByFilename);
 
     let media: { media: ImageMetadata; caption: string }[] | undefined;
-    if (customCollection && customFolder) {
-        const ms = MediaUtils.getMediaSource(customCollection);
-        if (ms) {
-            media = (await MediaUtils.loadMedia(ms, customFolder)).map((m) => ({
-                media: m,
-                caption:
-                    mediaCaptions.get(PathUtils.getFileNameFromPath(m.src)) ??
-                    PathUtils.getFileNameFromPath(m.src),
-            }));
-        }
-    } else if (entry?.id && entry?.collection) {
+    if (entry?.id && entry?.collection) {
         const ms = MediaUtils.getMediaSource(entry.collection);
         if (ms) {
             const mf = PathUtils.getPathFromId(entry.id);

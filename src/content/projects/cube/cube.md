@@ -2,9 +2,14 @@
 sort: 3
 title: "Companion Music Cube"
 description: "Silver pendant that plays a song"
-updatedDate: "2014"
+lastActiveDate: "2014"
+updatedDate: 2024-11-19
 status: "Completed"
-heroImage: "cube.jpg"
+heroImage: ./cube.jpg
+galleryImages:
+  - ['An early protoype', ./protoboard1.jpg]
+  - ['Design for a PCB in the charger', ./charger_pcb2.png]
+  - ['An attempt at lost-platic casting', ./casting.jpg]
 ---
 
 This project is a pendant made of silver that contains a tiny speaker, some electronics, a button, and

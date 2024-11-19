@@ -2,7 +2,8 @@
 sort: 10
 title: "OpenGT"
 description: "Automotive Tuning and Data-logging apps for Android"
-updatedDate: "2016"
+updatedDate: 2024-11-19
+lastActiveDate: "2016"
 status: "work in progress"
 cardIcon: "software"
 ---

@@ -1,7 +1,7 @@
 ---
 import * as PathUtils from "@lib/PathUtils";
 import * as EntryUtils from "@lib/EntryUtils";
-import CollectionMedia, { type MediaInfo } from "./CollectionMedia.astro";
+import CollectionMedia from "./CollectionMedia.astro";
 
 export interface Props {
   entry: EntryUtils.Entry;
@@ -19,16 +19,19 @@ const {
   useLightbox = false,
 } = Astro.props;
 
-const mediaInfo: MediaInfo = {
-  collection: entry.collection,
-  folder: PathUtils.getPathFromId(entry.id),
-  fileName: fileName,
-};
+// try to find the given image in the entry's gallery images
+const image = entry.galleryImages?.find(
+  (gi) => PathUtils.getFileNameFromPath(gi[1].src) === fileName,
+)?.[1];
 ---
 
-<CollectionMedia
-  mediaInfo={mediaInfo}
-  alt={alt}
-  class={className ?? "w-full max-h-[32rem]"}
-  useLightbox={useLightbox}
-/>
+{
+  image && (
+    <CollectionMedia
+      media={image}
+      alt={alt}
+      class={className ?? "w-full max-h-[32rem]"}
+      useLightbox={useLightbox}
+    />
+  )
+}

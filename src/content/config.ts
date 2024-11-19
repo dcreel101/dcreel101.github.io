@@ -1,58 +1,52 @@
-import { z, defineCollection, type CollectionConfig, type SchemaContext } from "astro:content";
-import { entrySchema, entryWithTagsSchema, metaSchema, buildEntryWithTagsSchema } from "@lib/Entry.ts"
-import { workProjectSchema } from "@lib/WorkProject.ts"
+import { z, defineCollection, type SchemaContext, type ImageFunction } from "astro:content";
+import * as Entry from "@lib/Entry.ts"
+// import { workProjectSchema } from "@lib/WorkProject.ts"
 
-const blogPostSchema = entryWithTagsSchema.merge(z.object({
+const blogPostSchema = z.object({
     publicationDate: z.coerce.date(),
-}));
+});
+const buildBlogPostSchema = (image: ImageFunction) => Entry.buildEntryWithTagsSchema(image).merge(blogPostSchema);
 
-const storeItemSchema = entrySchema.merge(z.object({
+const storeItemSchema = z.object({
     price: z.string(),
     oldPrice: z.string().nullable().optional(),
     shopUrl: z.string().nullable().optional(),
     customButtonLabel: z.string().nullable().optional(),
     customButtonUrl: z.string().nullable().optional()
-}));
+});
+const buildStoreItemSchema = (image: ImageFunction) => Entry.buildEntrySchema(image).merge(storeItemSchema);
 
-const projectSchema = entrySchema.merge(z.object({
+const projectSchema = z.object({
     status: z.string().nullable().optional(),
     startDate: z.string().nullable().optional(),
     lastActiveDate: z.string().nullable().optional(),
-}));
+});
+const buildProjectSchema = (image: ImageFunction) => Entry.buildEntrySchema(image).merge(projectSchema);
 
-export const buildHobbySchema = (imageContext: any) => buildEntryWithTagsSchema(imageContext).merge(z.object({
+const hobbySchema = z.object({
     startDate: z.string().nullable().optional(),
     lastActiveDate: z.string().nullable().optional(),
-}));
-const hobbySchema = entryWithTagsSchema.merge(z.object({
-    startDate: z.string().nullable().optional(),
-    lastActiveDate: z.string().nullable().optional(),
-}));
+});
+const buildHobbySchema = (image: ImageFunction) => Entry.buildEntryWithTagsSchema(image).merge(hobbySchema);
 
-// schema?: S | ((context: SchemaContext) => S);
-const hobbySchemaConfig: CollectionConfig<typeof hobbySchema> = {
-    schema: (context: SchemaContext) => buildHobbySchema(context),
-}
-
-const blogPostsCollection = defineCollection({ schema: blogPostSchema });
-const storeItemsCollection = defineCollection({ schema: storeItemSchema });
-const projectsCollection = defineCollection({ schema: projectSchema });
-// const hobbiesCollection = defineCollection({ schema: () => hobbySchema });
-const hobbiesCollection = defineCollection(hobbySchemaConfig);
-const workCollection = defineCollection({ schema: workProjectSchema });
+const blogPostsCollection = defineCollection({ schema: (context: SchemaContext) => buildBlogPostSchema(context.image) });
+const storeItemsCollection = defineCollection({ schema: (context: SchemaContext) => buildStoreItemSchema(context.image) });
+const projectsCollection = defineCollection({ schema: (context: SchemaContext) => buildProjectSchema(context.image) });
+const hobbiesCollection = defineCollection({ schema: (context: SchemaContext) => buildHobbySchema(context.image) });
+// const workCollection = defineCollection({ schema: workProjectSchema });
 
 export const collections = {
     'blog': blogPostsCollection,
     'store': storeItemsCollection,
     'projects': projectsCollection,
     'hobbies': hobbiesCollection,
-    'work': workCollection,
+    // 'work': workCollection,
 }
 
-const blogPostWithMetaSchema = blogPostSchema.merge(metaSchema);
-const storeItemSchemaWithMetaSchema = storeItemSchema.merge(metaSchema);
-const projectSchemaWithMetaSchema = projectSchema.merge(metaSchema);
-const hobbySchemaWithMetaSchema = hobbySchema.merge(metaSchema);
+const blogPostWithMetaSchema = blogPostSchema.merge(Entry.entryWithTagsSchemaWithMeta);
+const storeItemSchemaWithMetaSchema = storeItemSchema.merge(Entry.entrySchemaWithMeta);
+const projectSchemaWithMetaSchema = projectSchema.merge(Entry.entrySchemaWithMeta);
+const hobbySchemaWithMetaSchema = hobbySchema.merge(Entry.entryWithTagsSchemaWithMeta);
 export type BlogPost = z.infer<typeof blogPostWithMetaSchema>;
 export type StoreItem = z.infer<typeof storeItemSchemaWithMetaSchema>;
 export type Project = z.infer<typeof projectSchemaWithMetaSchema>;

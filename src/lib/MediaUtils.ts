@@ -1,10 +1,17 @@
 import * as PathUtils from "@lib/PathUtils";
-import { loadAllMedia } from "@components/MediaLoader.astro"
+import { loadAllMedia, type ImageMetadataX } from "@components/MediaLoader.astro"
 import { getMediaSource } from "@components/MediaLoader.astro"
 import { MediaSources } from "@components/MediaLoader.astro"
 
 export { MediaSources };
 export { getMediaSource };
+export interface MediaInfo {
+    source: MediaSources;
+    media: ({
+        folder: string;
+        fileName: string | null;
+    } | ImageMetadataX);
+}
 
 function filterMedia(
     mediaSource: MediaSources,
@@ -25,25 +32,34 @@ function filterMedia(
     return filtered;
 }
 
-export async function loadSingleMedia(
-    source: MediaSources,
-    folder: string,
-    fileName: string,
-): Promise<ImageMetadata | undefined> {
-    let allMedia = await loadAllMedia(source);
+export async function loadSingleMedia(mediaInfo: MediaInfo): Promise<ImageMetadata | undefined> {
+    let allMedia = await loadAllMedia(mediaInfo.source);
 
-    const containingFolder = PathUtils.joinPath(source, folder);
-    const filePath = PathUtils.joinPath(containingFolder, fileName);
+    if (mediaInfo.media.fsPath) {
+        console.info(`loadSingleMedia: '${mediaInfo.media.fsPath}'`);
+        const val = allMedia.find((m) => {
+            console.info(`    ${m.fsPath}`);
+            return m.fsPath.endsWith(mediaInfo.media.fsPath);
+        }
+        );
 
-    console.info(`loadSingleMedia: '${filePath}'`);
-    const val = allMedia.find((m) => {
-        const mPath = PathUtils.getPathWithoutParams(m.src);
-        console.info(`    ${m.src} -> ${mPath}`);
-        return mPath.endsWith(filePath);
-    },
-    );
+        return val;
+    } else if (mediaInfo.media.folder && mediaInfo.media.fileName) {
+        const containingFolder = PathUtils.joinPath(mediaInfo.source, mediaInfo.media.folder);
+        const filePath = PathUtils.joinPath(containingFolder, mediaInfo.media.fileName);
 
-    return val;
+        console.info(`loadSingleMedia: '${filePath}'`);
+        const val = allMedia.find((m) => {
+            const mPath = PathUtils.getPathWithoutParams(m.src);
+            console.info(`    ${mPath}`);
+            return mPath.endsWith(filePath);
+        },
+        );
+
+        return val;
+    }
+
+    return;
 }
 
 export async function loadMedia(

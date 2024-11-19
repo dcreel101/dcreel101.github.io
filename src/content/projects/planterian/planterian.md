@@ -2,9 +2,13 @@
 sort: 2
 title: "Planterian"
 description: "LoRaWAN Garden Monitoring Device"
-updatedDate: "2019"
+updatedDate: 2024-11-19
+lastActiveDate: "2019"
 status: "prototype"
-heroImage: "prototype.jpg"
+heroImage: ./concept.png
+galleryImages:
+  - ['Working Prototype', ./prototype.jpg]
+  - ['Electronics inside the prototype', ./electronics.png]
 ---
 
 Planterian is a garden or potted plant monitoring device designed to measure key environmental parameters and transmit the data via LoRaWAN. The device has a long battery life (3+ years) and does not require WiFi, Bluetooth, or frequent manual data collection via an app. Although it was developed with a focus on efficiency and the potential for community-driven monitoring and management, it has a whimsical design that goes well with any garden: that of a red and white-spotted mushroom.

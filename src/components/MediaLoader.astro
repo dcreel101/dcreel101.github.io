@@ -11,7 +11,7 @@ export enum MediaSources {
     Work = "/src/content/work",
 }
 
-export function getMediaSource(collection: string): MediaSources | undefined {
+export function getMediaSource(collection: string): MediaSources {
     switch (collection) {
         case "blog":
             return MediaSources.Blog;
@@ -22,18 +22,22 @@ export function getMediaSource(collection: string): MediaSources | undefined {
         case "store":
             return MediaSources.Store;
         default:
-            return;
+            throw new Error("Unexpected collection: " + collection);
     }
+}
+
+export interface ImageMetadataX extends ImageMetadata {
+    fsPath: string;
 }
 
 export async function loadAllMedia(
     source: MediaSources,
-): Promise<ImageMetadata[]> {
+): Promise<(ImageMetadata | ImageMetadataX)[]> {
     enum MediaFilter {
         Value = "/**/*.{jpeg,jpg,png,gif,jfif,mp4}",
     }
 
-    let mediaRecords: Record<string, ImageMetadata>[];
+    let mediaRecords: Record<string, ImageMetadata | ImageMetadataX>[];
     try {
         switch (source) {
             case MediaSources.Blog:
@@ -52,9 +56,9 @@ export async function loadAllMedia(
                 );
                 break;
             case MediaSources.Hobbies:
-                mediaRecords = await Astro.glob<{ default: ImageMetadata }>(
-                    MediaSources.Hobbies + MediaFilter.Value,
-                );
+                mediaRecords = await Astro.glob<{
+                    default: ImageMetadata | ImageMetadataX;
+                }>(MediaSources.Hobbies + MediaFilter.Value);
                 break;
             case MediaSources.Work:
                 mediaRecords = await Astro.glob<{ default: ImageMetadata }>(

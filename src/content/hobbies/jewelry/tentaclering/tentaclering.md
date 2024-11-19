@@ -5,16 +5,14 @@ description: "A ring in the shape of a tentacle, made from cast silver"
 startDate: "2013"
 updatedDate: "2024-10-22"
 lastActiveDate: "2013"
-heroImage: "tentaclering03.jpg"
+heroImage: ./tentaclering03.jpg
 tags:
     - jewelry
     - ring
     - silver
-mediaCaptionsByFilename:
-    - [tentaclering02.jpg, Tentacle ring ]
-    - [tentaclering03.jpg, Tentacle ring ]
-    - [tentaclering01.jpg, Tentacle ring ]
-sortMainGalleryBy: captionList
+galleryImages:
+    - [Tentacle ring, tentaclering02.jpg]
+    - [Tentacle ring, tentaclering01.jpg]
 ---
 
 This is a ring in the shape of a tentacle that I cast in pure silver using a lost-plastic technique.

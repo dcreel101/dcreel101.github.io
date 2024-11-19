@@ -1,64 +1,25 @@
 ---
-import * as MediaUtils from "@lib/MediaUtils";
 import { type ImageMetadata } from "astro";
 import LightboxImage from "@components/LightboxImage.astro";
 import { Image } from "astro:assets";
 
-export interface MediaInfo {
-  collection?: string;
-  folder?: string;
-  fileName?: string | null;
-}
-
 interface Props {
-  mediaInfo: MediaInfo;
-  fallbackMedia?: ImageMetadata;
+  media: ImageMetadata;
   alt?: string;
   class?: string;
   useLightbox?: boolean;
 }
 
-const {
-  mediaInfo,
-  fallbackMedia,
-  alt = "",
-  class: className,
-  useLightbox = false,
-} = Astro.props;
-
-async function getCollectionMedia(
-  mediaInfo: MediaInfo,
-): Promise<ImageMetadata | undefined> {
-  if (mediaInfo.collection && mediaInfo.folder && mediaInfo.fileName) {
-    const mediaSource = MediaUtils.getMediaSource(mediaInfo.collection);
-    if (mediaSource) {
-      return await MediaUtils.loadSingleMedia(
-        mediaSource,
-        mediaInfo.folder,
-        mediaInfo.fileName,
-      );
-    }
-  }
-
-  return;
-}
-
-const media = (await getCollectionMedia(mediaInfo)) ?? fallbackMedia;
+const { media, alt = "", class: className, useLightbox = false } = Astro.props;
 ---
 
+{useLightbox && <LightboxImage media={media} caption={alt} class={className} />}
 {
-  media &&
-    ((useLightbox && (
-      <LightboxImage media={media} caption={alt} class={className} />
-    )) ||
-      (!useLightbox && (
-        <Image
-          src={media}
-          alt={alt}
-          class={
-            className + " object-cover object-center rounded-box cursor-pointer"
-          }
-        />
-      )))
+  !useLightbox && (
+    <Image
+      src={media}
+      alt={alt}
+      class={className + " object-cover object-center rounded-box"}
+    />
+  )
 }
-{!media && <slot name="fallbackContent" />}

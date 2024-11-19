@@ -18,6 +18,13 @@ const { project } = Astro.props;
         </div>
       )
     }
+    {
+      project.lastActiveDate && (
+        <div>
+          Last Active: <time>{project.lastActiveDate}</time>
+        </div>
+      )
+    }
     {project.status && <div>Status: {project.status}</div>}
   </Fragment>
   <slot name="content" slot="content" />

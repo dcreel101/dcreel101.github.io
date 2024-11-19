@@ -32,6 +32,9 @@ const giTest = await getImage({ src: test });
 const specificImageTest = await Astro.glob(
   "../../src/content/hobbies/jewelry/spectre/spectrerings.jpg",
 );
+
+let xyz = "../../src/content/hobbies/";
+xyz = xyz + "**/*.{jpeg,jpg,png,gif,jfif,mp4}";
 ---
 
 <BaseLayout title="Image Test" includeSidebar={false}>

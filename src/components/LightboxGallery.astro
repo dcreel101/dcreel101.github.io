@@ -1,36 +1,53 @@
 ---
-import ModalDialog, { getShowDialogCode } from "@components/ModalDialog.astro";
+import ModalDialog from "@components/ModalDialog.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import * as GalleryUtils from "@lib/GalleryUtils";
-import { type Entry, type EntryWithTags } from "@lib/Entry";
+import * as PathUtils from "@lib/PathUtils";
+import * as EntryUtils from "@lib/EntryUtils";
 
 interface Props {
   headerText?: string;
-  entry?: Entry | EntryWithTags;
-  customCollection?: string;
-  customFolder?: string;
-  sortBy?: GalleryUtils.GallerySortBy;
+  entry: EntryUtils.Entry;
   fileNames?: string[];
 }
 
-const {
-  headerText,
-  entry,
-  customCollection,
-  customFolder,
-  sortBy = "random",
-  fileNames,
-} = Astro.props;
+interface GalleryMediaInfo {
+  media: ImageMetadata;
+  caption: string;
+}
 
-let media = await GalleryUtils.loadGalleryMedia(
-  entry,
-  customCollection,
-  customFolder,
-  fileNames,
-);
-if (media) {
-  media = GalleryUtils.sortGalleryMedia(media, sortBy, entry, fileNames);
+const { headerText, entry, fileNames } = Astro.props;
+
+function sortByFileNameList(
+  media: GalleryMediaInfo[],
+  fileNames: string[],
+): GalleryMediaInfo[] {
+  let temp: { media: EntryUtils.EntryImage; caption: string }[] = [];
+  for (const fn of fileNames) {
+    let m = media.findIndex(
+      (v, _) =>
+        PathUtils.getFileNameFromPath(v.media.src)
+          .toLocaleLowerCase()
+          .localeCompare(fn) == 0,
+    );
+    if (m >= 0) {
+      temp.push(media[m]);
+    }
+  }
+
+  return temp;
+}
+
+let media: GalleryMediaInfo[] | undefined;
+if (entry.galleryImages) {
+  media = entry.galleryImages.map((gi) => ({
+    caption: gi[0],
+    media: gi[1],
+  }));
+
+  if (fileNames && fileNames.length > 0) {
+    media = sortByFileNameList(media, fileNames);
+  }
 }
 
 const galleryKey = Math.random().toString(16).slice(2);

@@ -1,12 +1,11 @@
 /// <reference path="Entry.ts" />
 import { getCollection, type ContentEntryMap, type Render } from "astro:content";
-import { type EntryWithTags, type Entry, type MetaInfo } from "@lib/Entry.ts"
+import { type EntryWithTags, type Entry, type EntryImage, type MetaInfo } from "@lib/Entry.ts"
 import * as PathUtils from "@lib/PathUtils.ts"
 import createSlug from "@lib/createSlug.ts";
 import type { BlogPost, Hobby, Project, StoreItem } from "src/content/config.ts";
 
-export { type Entry };
-export { type EntryWithTags };
+export { type Entry, type EntryImage, type EntryWithTags };
 export { type BlogPost, type Hobby, type Project, type StoreItem };
 
 export function getTagCountsByTag(entries: Iterable<EntryWithTags>): { tag: string, count: number }[] {

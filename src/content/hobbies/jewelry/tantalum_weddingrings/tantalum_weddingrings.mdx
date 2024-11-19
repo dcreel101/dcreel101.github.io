@@ -3,30 +3,31 @@ sort: 10
 title: Tantalum Wedding Rings
 description: Wedding rings made from tantalum and 18K rose gold
 startDate: "2024"
-updatedDate: 2024-10-22
+updatedDate: 2024-11-19
 lastActiveDate: "04/2024"
-heroImage: rings.jpg
+heroImage: ./rings.jpg
 tags:
     - jewelry
     - tantalum
     - ring
-mediaCaptionsByFilename:
-    - [rings_01.jpg, Tantalum outer with gold inner ]
-    - [rings_02.jpg, Pressed together ]
-    - [rings_03.jpg, Pressed and sized ]
-    - [rings_04.jpg, Polished for fun before further processing ]
-    - [rings_05.jpg, Marking the diamond locations ]
-    - [rings_06.jpg, Diamond locations marked ]
-    - [rings_07.jpg, "Diamond locations drilled, ring blackened" ]
-    - [rings_08.jpg, Ready to finish drilling and shaping the settings ]
-    - [rings_09.jpg, Cleaning up the gold after blackening ]
-    - [rings_10.jpg, First diamond in place ]
-    - [rings_11.jpg, All diamonds successfully set ]
-    - [rings_12.jpg, Blackened larger ring ]
-    - [rings_13.jpg, Both finished rings ]
-    - [rings_14.jpg, Bonus ring for my brother - not polished ]
-    - [rings_15.jpg, Bonus ring for my brother - polished]
-    - [rings.jpg, Both rings installed on human appendages]
+galleryImages:
+    - [Tantalum outer with gold inner, ./rings_01.jpg ]
+    - [Pressed together, ./rings_02.jpg ]
+    - [Pressed and sized, ./rings_03.jpg ]
+    - [Polished for fun before further processing, ./rings_04.jpg ]
+    - [Marking the diamond locations, ./rings_05.jpg ]
+    - [Diamond locations marked, ./rings_06.jpg ]
+    - ["Diamond locations drilled, ring blackened", ./rings_07.jpg ]
+    - [Ready to finish drilling and shaping the settings, ./rings_08.jpg ]
+    - [Cleaning up the gold after blackening, ./rings_09.jpg ]
+    - [First diamond in place, ./rings_10.jpg ]
+    - [All diamonds successfully set, ./rings_11.jpg ]
+    - [Blackened larger ring, ./rings_12.jpg ]
+    - [Both finished rings, ./rings_13.jpg ]
+    - [Bonus ring for my brother - not polished, ./rings_14.jpg ]
+    - [Bonus ring for my brother - polished, ./rings_15.jpg]
+    - [Both rings installed on human appendages, ./rings.jpg]
+hideMainGallery: true
 ---
 
 I decided to make wedding rings for my wife and I, and we both liked the idea of black rings. After researching
@@ -57,6 +58,7 @@ For small ring, I used a die and press meant for making coin rings to shrink it 
 
 For the large ring, I instead used a cheap ring expander to stretch it out, and then turned the ID for a tight
     press-fit with the gold band. Then it was basically the same process as with the small ring.
+<MDGallery entry={props.entry} fileNames={["rings_01.jpg", "rings_02.jpg", "rings_03.jpg", "rings_04.jpg"]} />
 
 ## Blackening
 Unfortunately, I had to learn a lot with the blackening, and it was extremely frustrating to get it right. I
@@ -77,6 +79,7 @@ A side-effect of the blackening is that 18K rose gold and tantalum do not expand
     press-fit is broken - not to mention, the gold ends up black and needs to be polished manually (pickle might
     remove the tantalum blackening). Next time, I would completely finish the tantalum before pressing it together
     with the gold. 
+<MDGallery entry={props.entry} fileNames={["rings_09.jpg", "rings_12.jpg", "rings_13.jpg"]} />
 
 ## Diamonds
 I did have the foresight to not try blackening the ring with diamonds in it, however, I did drill the pilot holes
@@ -86,6 +89,7 @@ I did have the foresight to not try blackening the ring with diamonds in it, how
 
 I am afraid of what will happen if I need to re-blacken the ring or resize it in the future. The diamonds could
     come loose and need re-setting.
+<MDGallery entry={props.entry} fileNames={["rings_05.jpg", "rings_06.jpg", "rings_07.jpg", "rings_08.jpg", "rings_10.jpg", "rings_11.jpg"]} />
 
 ## Extra Ring
 After my brother saw my ring, he asked me to make him one as well. He had (I think) a stainless steel ring with
@@ -97,3 +101,5 @@ I made him a plain tantalum one with bevelled sides and a flat outer surface to 
     comfort. I polished the bevelled parts and brushed the middle part, and after seeing it before blackening, he
     decided to keep it that way. I showed him how to blacken
     it, in case he wants to eventually.
+
+<MDGallery entry={props.entry} fileNames={["rings_14.jpg", "rings_15.jpg"]} />

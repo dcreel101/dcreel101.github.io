@@ -2,7 +2,8 @@
 sort: 5
 title: "CreelQR"
 description: ".NET QR Code Library"
-updatedDate: "2018"
+updatedDate: 2024-11-19
+lastActiveDate: "2018"
 status: "work in progress"
 cardIcon: "software"
 ---
