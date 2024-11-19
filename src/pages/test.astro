@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import test from "./test.jpg";
 import CollectionMedia from "@components/CollectionMedia.astro";
@@ -11,30 +11,54 @@ import { getCollection } from "astro:content";
 // const mediaRecords: Record<string, ImageMetadata>[] = await Astro.glob<{
 //   default: ImageMetadata;
 // }>("/src/pages/**/*.{jpeg,jpg,png,gif,jfif,mp4}");
-const mediaRecords: Record<string, ImageMetadata>[] = await Astro.glob<{
-  default: ImageMetadata;
-}>("/src/content/hobbies/**/*.{jpeg,jpg,png,gif,jfif,mp4}");
+const mediaRecords = await Astro.glob(
+  "../../src/content/hobbies/**/*.{jpeg,jpg,png,gif,jfif,mp4}",
+);
 
-const media: ImageMetadata[] = Object.values(mediaRecords)
-  .filter((mr) => isImageMetadata(mr.default))
-  .map((mr) => mr.default);
+// const media: ImageMetadata[] = Object.values(mediaRecords)
+//   .filter((mr) => isImageMetadata(mr.default))
+//   .map((mr) => mr.default);
 
 // const entries =
 //   await EntryUtils.getCollectionEntries<EntryUtils.Hobby>("hobbies");
-// const zzz = await Astro.glob("./*.{jpeg,jpg,png,gif,jfif,mp4}");
-
+const hobs = await getCollection("hobbies");
+const projs = await getCollection("projects");
 // const testMediaInfo = {
 //   collection: "hobbies",
 //   folder: "_vehicles/foil/",
 //   fileName: "20140424_213702.BXFFGZjF.jpg",
 // };
+const giTest = await getImage({ src: test });
+const specificImageTest = await Astro.glob(
+  "../../src/content/hobbies/jewelry/spectre/spectrerings.jpg",
+);
 ---
 
 <BaseLayout title="Image Test" includeSidebar={false}>
   <div>
+    <h4>Test:</h4>
     {JSON.stringify(test)}
+    <br />
+    <br />
+    <h4>Test GI:</h4>
+    {JSON.stringify(giTest)}
+    <br />
+    <br />
+    <h4>Test Hobby:</h4>
+    {JSON.stringify(hobs[0].data.heroImage)}
+    <br />
+    <br />
+    <h4>Test Proj:</h4>
+    {JSON.stringify(projs[0].data.heroImage)}
+    <br />
+    <br />
+    <h4>Specific Image:</h4>
+    {JSON.stringify(specificImageTest)}
+    <br />
+    <br />
+    <h4>Hobby Media Records</h4>
     <ul>
-      {media.map((e) => <li>{JSON.stringify(e)}</li>)}
+      {mediaRecords.map((e) => <li>{JSON.stringify(e)}</li>)}
     </ul>
   </div>
 </BaseLayout>
