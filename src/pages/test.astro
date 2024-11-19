@@ -1,0 +1,12 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import test from "./test.jpg";
+---
+
+<BaseLayout title="Image Test" includeSidebar={false}>
+  <div class="text-center">
+    <h3 class="text-2xl">Image Test</h3>
+    <Image src={test} alt={test.src} />
+  </div>
+</BaseLayout>
