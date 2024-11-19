@@ -9,7 +9,7 @@ import { isImageMetadata } from "node_modules/astro/dist/assets/types";
 // }>("/src/pages/**/*.{jpeg,jpg,png,gif,jfif,mp4}");
 const mediaRecords: Record<string, ImageMetadata>[] = await Astro.glob<{
   default: ImageMetadata;
-}>("/src/content/hobbies/jewelry/tentaclering/tentaclering02.jpg");
+}>("/src/content/hobbies/**/*.{jpeg,jpg,png,gif,jfif,mp4}");
 
 const media: ImageMetadata[] = Object.values(mediaRecords)
   .filter((mr) => isImageMetadata(mr.default))
