@@ -2,11 +2,27 @@
 import { Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import test from "./test.jpg";
+import { isImageMetadata } from "node_modules/astro/dist/assets/types";
+
+// const mediaRecords: Record<string, ImageMetadata>[] = await Astro.glob<{
+//   default: ImageMetadata;
+// }>("/src/pages/**/*.{jpeg,jpg,png,gif,jfif,mp4}");
+const mediaRecords: Record<string, ImageMetadata>[] = await Astro.glob<{
+  default: ImageMetadata;
+}>("/src/pages/test.jpg");
+
+const media: ImageMetadata[] = Object.values(mediaRecords)
+  .filter((mr) => isImageMetadata(mr.default))
+  .map((mr) => mr.default);
 ---
 
 <BaseLayout title="Image Test" includeSidebar={false}>
   <div class="text-center">
     <h3 class="text-2xl">Image Test</h3>
     <Image src={test} alt={test.src} />
+    <span>media.length: {media?.length}</span>
+    <span>media[0]: {media?.length > 0 && JSON.stringify(media[0])}</span>
+    {media?.length > 0 && <Image src={media[0]} alt={media[0].src} />}
+    {(!media || media.length === 0) && <span>Media not found!</span>}
   </div>
 </BaseLayout>
