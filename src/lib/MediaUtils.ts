@@ -35,8 +35,11 @@ export async function loadSingleMedia(
     const containingFolder = PathUtils.joinPath(source, folder);
     const filePath = PathUtils.joinPath(containingFolder, fileName);
 
-    const val = allMedia.find((m) =>
-        PathUtils.getPathWithoutParams(m.src).endsWith(filePath),
+    const val = allMedia.find((m) => {
+        const mPath = PathUtils.getPathWithoutParams(m.src);
+        console.info(`loadSingleMedia('${filePath}') ?-> '${mPath}'`)
+        return mPath.endsWith(filePath);
+    },
     );
 
     return val;

@@ -2,7 +2,10 @@
 import { Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import test from "./test.jpg";
+import CollectionMedia from "@components/CollectionMedia.astro";
 import { isImageMetadata } from "node_modules/astro/dist/assets/types";
+import * as EntryUtils from "@lib/EntryUtils";
+import EntryHeroImage from "@components/EntryHeroImage.astro";
 
 // const mediaRecords: Record<string, ImageMetadata>[] = await Astro.glob<{
 //   default: ImageMetadata;
@@ -11,18 +14,27 @@ const mediaRecords: Record<string, ImageMetadata>[] = await Astro.glob<{
   default: ImageMetadata;
 }>("/src/content/hobbies/**/*.{jpeg,jpg,png,gif,jfif,mp4}");
 
-const media: ImageMetadata[] = Object.values(mediaRecords)
-  .filter((mr) => isImageMetadata(mr.default))
-  .map((mr) => mr.default);
+// const media: ImageMetadata[] = Object.values(mediaRecords)
+//   .filter((mr) => isImageMetadata(mr.default))
+//   .map((mr) => mr.default);
+
+const entries =
+  await EntryUtils.getCollectionEntries<EntryUtils.Hobby>("hobbies");
+
+// const testMediaInfo = {
+//   collection: "hobbies",
+//   folder: "_vehicles/foil/",
+//   fileName: "20140424_213702.BXFFGZjF.jpg",
+// };
 ---
 
 <BaseLayout title="Image Test" includeSidebar={false}>
   <div class="text-center">
     <h3 class="text-2xl">Image Test</h3>
     <Image src={test} alt={test.src} />
-    <span>media.length: {media?.length}</span>
-    <span>media[0]: {media?.length > 0 && JSON.stringify(media[0])}</span>
-    {media?.length > 0 && <Image src={media[0]} alt={media[0].src} />}
-    {(!media || media.length === 0) && <span>Media not found!</span>}
+    <p></p>
+    <h3>Test Entry</h3>
+    <EntryHeroImage entry={entries[0]} />
+    <h3>End of Test Entry</h3>
   </div>
 </BaseLayout>
