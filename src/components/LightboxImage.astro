@@ -29,7 +29,14 @@ const {
       <span class="text-2xl text-bold absolute bottom-0 mb-1">{caption}</span>
     </div>
     <div class="size-full content-center overflow-auto rounded-box">
-      <Image src={media} alt={caption} class="m-0 w-full h-auto rounded-box" />
+      <Image
+        src={media}
+        alt={caption}
+        class:list={[
+          "m-0 rounded-box",
+          "w-auto max-w-[150vw] h-auto max-h-[150vh]",
+        ]}
+      />
     </div>
   </div>
 </ModalDialog>

@@ -22,8 +22,8 @@ function sortByFileNameList(
   media: GalleryMediaInfo[],
   fileNames: string[],
 ): GalleryMediaInfo[] {
-  console.info(`LBGal: media = ${JSON.stringify(media)}`);
-  console.info(`LBGal: fileNames = ${JSON.stringify(fileNames)}`);
+  // console.info(`LBGal: media = ${JSON.stringify(media)}`);
+  // console.info(`LBGal: fileNames = ${JSON.stringify(fileNames)}`);
   let temp: { media: EntryUtils.EntryImage; caption: string }[] = [];
   for (const fn of fileNames) {
     let m = media.findIndex(
@@ -42,7 +42,7 @@ function sortByFileNameList(
 
 let media: GalleryMediaInfo[] | undefined;
 if (entry.galleryImages) {
-  console.info(`LBGal: galleryImages = ${JSON.stringify(entry.galleryImages)}`);
+  // console.info(`LBGal: galleryImages = ${JSON.stringify(entry.galleryImages)}`);
   media = entry.galleryImages.map((gi) => ({
     caption: gi[0],
     media: gi[1],
@@ -120,7 +120,10 @@ const CAROUSEL_NEXT_CLASSNAME = CAROUSEL_CLASSNAME + "-next";
                   <Image
                     src={m.media}
                     alt={m.caption}
-                    class="m-0 w-full h-auto rounded-box"
+                    class:list={[
+                      "m-0 rounded-box",
+                      "w-auto max-w-[150vw] h-auto max-h-[150vh]",
+                    ]}
                   />
                 </div>
               </div>
