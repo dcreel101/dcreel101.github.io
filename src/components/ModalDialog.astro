@@ -2,7 +2,8 @@
 import { Icon } from "astro-icon/components";
 
 interface Props {
-  id: string;
+  id?: string;
+  class?: string;
   width?: string;
   height?: string;
   widthClass?: string;
@@ -11,6 +12,7 @@ interface Props {
 
 const {
   id,
+  class: className,
   width,
   height,
   widthClass = "w-fit",
@@ -30,7 +32,7 @@ export function getShowDialogCode(id: string): string {
 }
 ---
 
-<dialog id={id} class="modal">
+<dialog id={id} class:list={["modal", className]}>
   <div
     class=`modal-box relative ${widthClass} max-w-[95vw] ${heightClass} max-h-[90vh] overflow-hidden`
     style={styleProps}

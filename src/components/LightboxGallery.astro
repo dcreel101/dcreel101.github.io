@@ -50,18 +50,33 @@ if (entry.galleryImages) {
   }
 }
 
-const galleryKey = Math.random().toString(16).slice(2);
+const carouselId = "carousel_" + Math.random().toString(16).slice(2);
+const BASE_CLASSNAME = "creel-lbgall";
+const TRIGGER_CLASSNAME = BASE_CLASSNAME + "-trigger";
+const DIALOG_CLASSNAME = BASE_CLASSNAME + "-dialog";
+const CAROUSEL_CLASSNAME = BASE_CLASSNAME + "-carousel";
+const CAROUSEL_ITEM_CLASSNAME = CAROUSEL_CLASSNAME + "-item";
+const CAROUSEL_INDICATOR_CLASSNAME = CAROUSEL_CLASSNAME + "-indicator";
+const CAROUSEL_PREV_CLASSNAME = CAROUSEL_CLASSNAME + "-prev";
+const CAROUSEL_NEXT_CLASSNAME = CAROUSEL_CLASSNAME + "-next";
 ---
 
 {media && headerText && <h2 class="mb-0">{headerText}</h2>}
 {/* gallery preview images */}
 {
   media && (
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12 mt-0">
-      {media!.map((m, slideNumber) => (
+    <div
+      class:list={[
+        BASE_CLASSNAME,
+        "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12 mt-0",
+      ]}
+    >
+      {media!.map((m) => (
         <div
-          id={`gallery${galleryKey}_trigger${slideNumber}`}
-          class="h-40 max-w-full sm:max-w-1/2 md:max-w-1/3 lg:max-w-1/4"
+          class:list={[
+            TRIGGER_CLASSNAME,
+            "h-40 max-w-full sm:max-w-1/2 md:max-w-1/3 lg:max-w-1/4",
+          ]}
         >
           <Image
             src={m.media}
@@ -70,86 +85,88 @@ const galleryKey = Math.random().toString(16).slice(2);
           />
         </div>
       ))}
+
+      {/* modal dialog */}
+      <ModalDialog
+        class={DIALOG_CLASSNAME}
+        widthClass="w-[95vw]"
+        heightClass="h-[90vh]"
+      >
+        {/* carousel */}
+        <div
+          id={carouselId}
+          class:list={[CAROUSEL_CLASSNAME, "relative size-full"]}
+        >
+          {/* carousel wrapper */}
+          <div class="relative size-full overflow-hidden rounded-box">
+            {/* items */}
+            {media.map((m) => (
+              <div
+                class:list={[
+                  CAROUSEL_ITEM_CLASSNAME,
+                  "size-full flex flex-col",
+                  "hidden duration-700 ease-in-out",
+                ]}
+              >
+                <div class="w-full h-12 mb-2 shrink-0 relative">
+                  <span class="text-2xl text-bold absolute bottom-0 mb-1">
+                    {m.caption}
+                  </span>
+                </div>
+                <div class="size-full content-center overflow-auto rounded-box">
+                  <Image
+                    src={m.media}
+                    alt={m.caption}
+                    class="m-0 w-full h-auto rounded-box"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* indicators */}
+          <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-6 left-1/2">
+            {media.map((m, slideNumber) => (
+              <button
+                class:list={[
+                  CAROUSEL_INDICATOR_CLASSNAME,
+                  "w-4 h-4 rounded-box",
+                ]}
+                type="button"
+                aria-current={slideNumber == 0}
+                aria-label={`Slide ${slideNumber + 1}`}
+                data-carousel-slide-to={slideNumber}
+              />
+            ))}
+          </div>
+          {/* controls */}
+          <button
+            class:list={[
+              CAROUSEL_PREV_CLASSNAME,
+              "absolute top-14 bottom-0 left-0 z-30",
+              "flex items-center justify-center px-4",
+              "cursor-pointer focus:outline-none hover:glass rounded-l-box",
+            ]}
+            type="button"
+            data-carousel-prev
+          >
+            <Icon name="carousel_prev" class="w-12 h-12 text-base-content" />
+          </button>
+          <button
+            class:list={[
+              CAROUSEL_NEXT_CLASSNAME,
+              "absolute top-14 bottom-0 right-0 z-30",
+              "flex items-center justify-center px-4",
+              "cursor-pointer focus:outline-none hover:glass rounded-r-box",
+            ]}
+            type="button"
+            data-carousel-next
+          >
+            <Icon name="carousel_next" class="w-12 h-12 text-base-content" />
+          </button>
+        </div>
+      </ModalDialog>
     </div>
   )
 }
-{/* modal dialog */}
-{
-  media && (
-    <ModalDialog
-      id={`gallery${galleryKey}`}
-      widthClass="w-[95vw]"
-      heightClass="h-[90vh]"
-    >
-      {/* carousel */}
-      <div id={`carousel${galleryKey}`} class="relative size-full">
-        {/* carousel wrapper */}
-        <div class="relative size-full overflow-hidden rounded-box">
-          {/* items */}
-          {media.map((m, slideNumber) => (
-            <div
-              id={`carousel${galleryKey}_item${slideNumber}`}
-              class="size-full flex flex-col hidden duration-700 ease-in-out"
-            >
-              <div class="w-full h-12 mb-2 shrink-0 relative">
-                <span class="text-2xl text-bold absolute bottom-0 mb-1">
-                  {m.caption}
-                </span>
-              </div>
-              <div class="size-full content-center overflow-auto rounded-box">
-                <Image
-                  src={m.media}
-                  alt={m.caption}
-                  class="m-0 w-full h-auto rounded-box"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* indicators */}
-        <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-6 left-1/2">
-          {media.map((m, slideNumber) => (
-            <button
-              id={`carousel${galleryKey}_ind${slideNumber}`}
-              type="button"
-              class="w-4 h-4 rounded-box"
-              aria-current={slideNumber == 0}
-              aria-label={`Slide ${slideNumber + 1}`}
-              data-carousel-slide-to={slideNumber}
-            />
-          ))}
-        </div>
-        {/* controls */}
-        <button
-          id={`carousel${galleryKey}_prev`}
-          type="button"
-          class="absolute top-14 bottom-0 left-0 z-30 flex items-center justify-center px-4 cursor-pointer focus:outline-none hover:glass rounded-l-box"
-          data-carousel-prev
-        >
-          <Icon name="carousel_prev" class="w-12 h-12 text-base-content" />
-        </button>
-        <button
-          id={`carousel${galleryKey}_next`}
-          type="button"
-          class="absolute top-14 bottom-0 right-0 z-30 flex items-center justify-center px-4 cursor-pointer focus:outline-none hover:glass rounded-r-box"
-          data-carousel-next
-        >
-          <Icon name="carousel_next" class="w-12 h-12 text-base-content" />
-        </button>
-      </div>
-    </ModalDialog>
-  )
-}
-{/* initialization */}
-{
-  media && (
-    <script
-      is:inline
-      type="module"
-      define:vars={{ galleryKey, itemCount: media.length }}
-    >
-      import initLightboxGallery from "../src/lib/initLightboxGallery";
-      initLightboxGallery(galleryKey, itemCount);
-    </script>
-  )
-}
+{/* initialization (only occurs once per page) */}
+<script src="../scripts/initLightboxGallery"></script>
