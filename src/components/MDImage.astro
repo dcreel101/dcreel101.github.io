@@ -21,7 +21,7 @@ const {
 
 // try to find the given image in the entry's gallery images
 const image = entry.galleryImages?.find(
-  (gi) => PathUtils.getFileNameFromPath(gi[1].src) === fileName,
+  (gi) => PathUtils.getFileNameFromPath(gi[1].fsPath) === fileName,
 )?.[1];
 ---
 
