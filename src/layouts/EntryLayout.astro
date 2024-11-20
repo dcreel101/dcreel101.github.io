@@ -8,15 +8,12 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 
 export interface Props {
     entry: EntryUtils.Entry | EntryUtils.EntryWithTags;
-    customCollection?: string;
-    customFolder?: string;
 }
 
-const { entry, customCollection, customFolder } = Astro.props;
+const { entry } = Astro.props;
 dayjs.extend(localizedFormat);
 
 const hideMainGallery = entry.hideMainGallery === true;
-const sortMainGalleryBy = entry.sortMainGalleryBy ?? "fileNameText";
 ---
 
 <BaseLayout
@@ -27,11 +24,7 @@ const sortMainGalleryBy = entry.sortMainGalleryBy ?? "fileNameText";
 >
     <main class="md:flex md:justify-center">
         <article class="prose prose-lg max-w-full prose-img:mx-auto">
-            <EntryHeroImage
-                entry={entry}
-                customCollection={customCollection}
-                customFolder={customFolder}
-            />
+            <EntryHeroImage entry={entry} />
             <div class="flex flex-row items-center">
                 <div class="flex title text-4xl font-bold mr-4">
                     {entry.title}
@@ -64,13 +57,7 @@ const sortMainGalleryBy = entry.sortMainGalleryBy ?? "fileNameText";
             <slot name="media">
                 {
                     !hideMainGallery && (
-                        <LightboxGallery
-                            headerText="Media"
-                            entry={entry}
-                            customCollection={customCollection}
-                            customFolder={customFolder}
-                            sortBy={sortMainGalleryBy}
-                        />
+                        <LightboxGallery headerText="Media" entry={entry} />
                     )
                 }
             </slot>

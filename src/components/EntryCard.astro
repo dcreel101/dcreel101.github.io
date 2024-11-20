@@ -18,10 +18,10 @@ const tagBaseUrl = `/${entry.collection}/tag`;
 <div
   class=`bg-base-100 ${noHover ? "" : "hover:shadow-xl transition ease-in-out hover:scale-[102%]"}`
 >
-  <a href={entry.url} target="_self">
+  <a href={entry.url} target="_self" class="w-full md:w-auto">
     <div class="hero-content flex-col md:flex-row">
       <EntryCardImage entry={entry} defaultMedia={defaultMedia} />
-      <div class="grow">
+      <div class="w-full">
         <h1 class="text-xl font-bold">
           {entry.title}
           {
