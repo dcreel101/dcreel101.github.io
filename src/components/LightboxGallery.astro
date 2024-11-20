@@ -22,11 +22,13 @@ function sortByFileNameList(
   media: GalleryMediaInfo[],
   fileNames: string[],
 ): GalleryMediaInfo[] {
+  console.info(`LBGal: media = ${JSON.stringify(media)}`);
+  console.info(`LBGal: fileNames = ${JSON.stringify(fileNames)}`);
   let temp: { media: EntryUtils.EntryImage; caption: string }[] = [];
   for (const fn of fileNames) {
     let m = media.findIndex(
       (v, _) =>
-        PathUtils.getFileNameFromPath(v.media.src)
+        PathUtils.getFileNameFromPath(v.media.fsPath)
           .toLocaleLowerCase()
           .localeCompare(fn) == 0,
     );
@@ -40,6 +42,7 @@ function sortByFileNameList(
 
 let media: GalleryMediaInfo[] | undefined;
 if (entry.galleryImages) {
+  console.info(`LBGal: galleryImages = ${JSON.stringify(entry.galleryImages)}`);
   media = entry.galleryImages.map((gi) => ({
     caption: gi[0],
     media: gi[1],
