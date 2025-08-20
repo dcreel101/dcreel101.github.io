@@ -12,6 +12,7 @@ galleryImages:
   - ['Living Room', ./living.jpg]
   - ['Corrugated Fiberboard Retaining Device', ./gap_cardboard.jpg]
   - ['A knot in the cable', ./gap_knot.jpg]
+  - ['Sealed beams - cable clips', ./cable_clips.jpg]
   
 ---
 Hi Neighbors, here is how I installed our ceiling lamps.
