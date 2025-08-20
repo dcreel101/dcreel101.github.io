@@ -16,6 +16,12 @@ galleryImages:
 ---
 Hi Neighbors, here is how I installed our ceiling lamps.
 
+### Cables
+
 A strip of cardboard rolled around the cable works pretty well for keeping the cable between the beams. You can also tie a knot in the cable and push it in there.
 
 If you have the sealed version, like in our bedroom, you need another solution of course.
+
+### Lamps
+
+For hanging the lamps, I used either very tiny wood screws with pre-drilled holes according to the guidelines from our landlord, or hook/eye screws with pre-drilled holes according to the guidelines from our landlord. Everything was done according to the guidelines of our landlord, just to be clear.
